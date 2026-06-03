@@ -1,0 +1,134 @@
+/* 颜色变量 */
+/* 人格配色 */
+/* 尺寸 */
+.page-header.data-v-f1512143 {
+  padding: 30rpx 24rpx 20rpx;
+}
+.page-title.data-v-f1512143 {
+  font-size: 36rpx;
+  font-weight: 700;
+}
+.records-list.data-v-f1512143 {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.record-top.data-v-f1512143 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+.record-personalities.data-v-f1512143 {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+.record-avatar-sm.data-v-f1512143 {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 14rpx;
+  background: #F8F6F4;
+  display: block;
+}
+.record-vs.data-v-f1512143 {
+  font-size: 20rpx;
+  color: #8B8B9E;
+}
+.record-date.data-v-f1512143 {
+  font-size: 22rpx;
+  color: #8B8B9E;
+}
+.record-partner-row.data-v-f1512143 {
+  margin-bottom: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.record-partner-info.data-v-f1512143 {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+}
+.record-partner-label.data-v-f1512143 {
+  font-size: 24rpx;
+  color: #8B8B9E;
+}
+.record-partner-name.data-v-f1512143 {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+.record-partner-edit.data-v-f1512143 {
+  font-size: 22rpx;
+  color: #4361EE;
+  padding: 2rpx 12rpx;
+  border: 1rpx solid #4361EE;
+  border-radius: 8rpx;
+  margin-left: 8rpx;
+}
+.record-relation.data-v-f1512143 {
+  margin-bottom: 12rpx;
+}
+.record-relation-name.data-v-f1512143 {
+  font-size: 32rpx;
+  font-weight: 700;
+  background: linear-gradient(135deg, #FF6B35, #F72585);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.record-bottom.data-v-f1512143 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12rpx;
+  border-top: 1rpx solid #EFEBE6;
+}
+.record-dest.data-v-f1512143 {
+  font-size: 24rpx;
+  color: #6B7280;
+}
+.record-actions.data-v-f1512143 {
+  display: flex;
+  gap: 12rpx;
+}
+.record-action.data-v-f1512143 {
+  font-size: 22rpx;
+  color: #FF6B35;
+  font-weight: 500;
+  padding: 4rpx 14rpx;
+  border: 1rpx solid #FF6B35;
+  border-radius: 8rpx;
+}
+.empty-state.data-v-f1512143 {
+  text-align: center;
+  padding: 80rpx 30rpx;
+}
+.empty-icon.data-v-f1512143 {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: #EFEBE6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24rpx;
+}
+.empty-icon-text.data-v-f1512143 {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #8B8B9E;
+}
+.empty-title.data-v-f1512143 {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+  display: block;
+  margin-bottom: 8rpx;
+}
+.empty-desc.data-v-f1512143 {
+  font-size: 24rpx;
+  color: #8B8B9E;
+  display: block;
+  line-height: 1.6;
+}

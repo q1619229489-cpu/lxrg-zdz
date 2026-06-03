@@ -1,0 +1,206 @@
+/* 颜色变量 */
+/* 人格配色 */
+/* 尺寸 */
+.header.data-v-1cf27b2a {
+  padding: 40rpx 24rpx 30rpx;
+  text-align: center;
+}
+.header-title.data-v-1cf27b2a {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #1A1A2E;
+  display: block;
+}
+.header-sub.data-v-1cf27b2a {
+  font-size: 26rpx;
+  color: #8B8B9E;
+  margin-top: 8rpx;
+  display: block;
+}
+.welcome-card.data-v-1cf27b2a {
+  text-align: center;
+  padding: 60rpx 30rpx;
+}
+.welcome-icon.data-v-1cf27b2a {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF6B35, #F72585);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24rpx;
+}
+.welcome-icon-text.data-v-1cf27b2a {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+.welcome-title.data-v-1cf27b2a {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+  display: block;
+  margin-bottom: 12rpx;
+}
+.welcome-desc.data-v-1cf27b2a {
+  font-size: 26rpx;
+  color: #8B8B9E;
+  display: block;
+  margin-bottom: 36rpx;
+}
+.welcome-btn.data-v-1cf27b2a {
+  width: 60%;
+  margin: 0 auto;
+  padding: 24rpx 0;
+  background: linear-gradient(135deg, #FF6B35, #F72585);
+  color: #FFFFFF;
+  border-radius: 16rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  text-align: center;
+}
+.section-title.data-v-1cf27b2a {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+  display: block;
+  margin-bottom: 20rpx;
+}
+.invite-card.data-v-1cf27b2a {
+  text-align: center;
+}
+.invite-header.data-v-1cf27b2a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+.invite-label.data-v-1cf27b2a {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+.invite-actions.data-v-1cf27b2a {
+  display: flex;
+  gap: 16rpx;
+}
+.invite-action.data-v-1cf27b2a {
+  font-size: 24rpx;
+  color: #FF6B35;
+  font-weight: 500;
+  padding: 6rpx 16rpx;
+  border: 1rpx solid #FF6B35;
+  border-radius: 10rpx;
+}
+.invite-code.data-v-1cf27b2a {
+  font-size: 56rpx;
+  font-weight: 700;
+  letter-spacing: 10rpx;
+  color: #1A1A2E;
+  padding: 20rpx;
+  background: #F8F6F4;
+  border-radius: 14rpx;
+  border: 2rpx dashed #EFEBE6;
+  font-family: monospace;
+  margin-bottom: 16rpx;
+}
+.invite-hint.data-v-1cf27b2a {
+  font-size: 24rpx;
+  color: #6B7280;
+  margin-bottom: 20rpx;
+}
+.personality-header.data-v-1cf27b2a {
+  margin-bottom: 16rpx;
+}
+.personality-label.data-v-1cf27b2a {
+  font-size: 26rpx;
+  color: #6B7280;
+}
+.personality-content.data-v-1cf27b2a {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+.personality-avatar.data-v-1cf27b2a {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 24rpx;
+  flex-shrink: 0;
+  background: #F8F6F4;
+}
+.personality-text.data-v-1cf27b2a {
+  flex: 1;
+}
+.personality-badge.data-v-1cf27b2a {
+  display: inline-block;
+  padding: 6rpx 24rpx;
+  border-radius: 30rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+}
+.personality-desc.data-v-1cf27b2a {
+  font-size: 24rpx;
+  color: #6B7280;
+  line-height: 1.6;
+  display: block;
+}
+.trait-item.data-v-1cf27b2a {
+  margin-bottom: 20rpx;
+}
+.trait-header.data-v-1cf27b2a {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+.trait-name.data-v-1cf27b2a {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+.trait-value.data-v-1cf27b2a {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #8B8B9E;
+}
+.trait-bar.data-v-1cf27b2a {
+  height: 12rpx;
+  background: #EFEBE6;
+  border-radius: 6rpx;
+  overflow: hidden;
+}
+.trait-fill.data-v-1cf27b2a {
+  height: 100%;
+  border-radius: 6rpx;
+  transition: width 0.6s ease;
+}
+.trait-desc.data-v-1cf27b2a {
+  font-size: 22rpx;
+  color: #8B8B9E;
+  margin-top: 6rpx;
+  display: block;
+}
+.match-input-row.data-v-1cf27b2a {
+  display: flex;
+  gap: 16rpx;
+  align-items: center;
+}
+.match-input.data-v-1cf27b2a {
+  flex: 1;
+  height: 80rpx;
+  border: 2rpx solid #EFEBE6;
+  border-radius: 14rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  letter-spacing: 6rpx;
+  text-transform: uppercase;
+  background: #F8F6F4;
+}
+.match-btn.data-v-1cf27b2a {
+  padding: 20rpx 36rpx;
+  background: linear-gradient(135deg, #FF6B35, #F72585);
+  color: #FFFFFF;
+  border-radius: 14rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+}

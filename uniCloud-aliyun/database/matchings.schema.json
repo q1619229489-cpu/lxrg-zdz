@@ -1,0 +1,71 @@
+﻿{
+  "bsonType": "object",
+  "required": ["inviteCode", "creator", "status"],
+  "properties": {
+    "inviteCode": {
+      "bsonType": "string",
+      "description": "6位邀请码",
+      "minLength": 6,
+      "maxLength": 6
+    },
+    "creator": {
+      "bsonType": "object",
+      "required": ["answers", "personality"],
+      "properties": {
+        "answers": {
+          "bsonType": "array",
+          "description": "答题记录"
+        },
+        "personality": {
+          "bsonType": "string",
+          "description": "人格标签"
+        },
+        "traits": {
+          "bsonType": "object",
+          "description": "6维特质"
+        },
+        "createdAt": {
+          "bsonType": "timestamp"
+        }
+      }
+    },
+    "joiner": {
+      "bsonType": "object",
+      "properties": {
+        "answers": {
+          "bsonType": "array"
+        },
+        "personality": {
+          "bsonType": "string"
+        },
+        "traits": {
+          "bsonType": "object"
+        },
+        "createdAt": {
+          "bsonType": "timestamp"
+        }
+      }
+    },
+    "result": {
+      "bsonType": "object",
+      "properties": {
+        "relationship": {
+          "bsonType": "object"
+        },
+        "destinations": {
+          "bsonType": "array"
+        }
+      }
+    },
+    "status": {
+      "bsonType": "string",
+      "enum": ["waiting", "matched"]
+    },
+    "createdAt": {
+      "bsonType": "timestamp"
+    },
+    "updatedAt": {
+      "bsonType": "timestamp"
+    }
+  }
+}

@@ -1,0 +1,83 @@
+/* 颜色变量 */
+/* 人格配色 */
+/* 尺寸 */
+.page-header.data-v-3f9ff6dd {
+  padding: 30rpx 24rpx 10rpx;
+}
+.page-title.data-v-3f9ff6dd {
+  font-size: 36rpx;
+  font-weight: 700;
+  display: block;
+}
+.result-section.data-v-3f9ff6dd {
+  text-align: center;
+  padding: 40rpx 30rpx;
+}
+.result-avatar.data-v-3f9ff6dd {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 28rpx;
+  margin: 0 auto 16rpx;
+  display: block;
+  background: #F8F6F4;
+}
+.result-pname.data-v-3f9ff6dd {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1A1A2E;
+  display: block;
+  margin-bottom: 6rpx;
+}
+.result-pdesc.data-v-3f9ff6dd {
+  font-size: 24rpx;
+  color: #6B7280;
+  line-height: 1.6;
+  display: block;
+  margin-bottom: 24rpx;
+}
+.result-fit-badge.data-v-3f9ff6dd {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20rpx;
+}
+.fit-yes.data-v-3f9ff6dd {
+  background: #06D6A0;
+}
+.fit-ok.data-v-3f9ff6dd {
+  background: #FFB800;
+}
+.fit-no.data-v-3f9ff6dd {
+  background: #F72585;
+}
+.fit-text.data-v-3f9ff6dd {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+.fit-reason.data-v-3f9ff6dd {
+  font-size: 26rpx;
+  color: #6B7280;
+  line-height: 1.6;
+  display: block;
+  margin-bottom: 32rpx;
+}
+.result-actions.data-v-3f9ff6dd {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+.action-btn.data-v-3f9ff6dd {
+  padding: 26rpx 0;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  text-align: center;
+}
+.action-btn.primary.data-v-3f9ff6dd {
+  background: linear-gradient(135deg, #FF6B35, #F72585);
+  color: #FFFFFF;
+}
