@@ -54,6 +54,10 @@ export async function getTeam(teamCode) {
       data: { code: teamCode }
     })
     if (res.result.code === 0) return res.result.data
+    // 有调试信息就打印出来
+    if (res.result.debug) {
+      console.log("get-team debug:", JSON.stringify(res.result.debug, null, 2))
+    }
     return null
   } catch(e) {
     console.error("get-team error:", e)
