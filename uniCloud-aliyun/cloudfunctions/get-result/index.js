@@ -22,8 +22,9 @@ exports.main = async (event, context) => {
     code: 0,
     data: {
       status: record.status,
-      creator: record.status === 'matched' ? record.creator : null,
-      result: record.result
+      creator: record.creator || null,
+      joiner: record.joiner || null,
+      result: record.result || null
     }
   }
 }

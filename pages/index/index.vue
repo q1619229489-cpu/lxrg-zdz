@@ -71,7 +71,7 @@
   import { setMatch, findByInviteCode, hasMatchedBefore, markMatched } from "../../store/index.js"
 
   export default {
-    data() { return { store, matchCode: "", traitKeys: traitDefinitions } },
+    data() { return { store, matchCode: "", traitKeys: traitDefinitions, _myChecked: false } },
     computed: {
       pInfo() {
         if (!store.myResult) return null
@@ -81,6 +81,29 @@
         if (!this.pInfo) return { bg: "#E8E8E8", text: "#999" }
         return { bg: this.pInfo.bgColor, text: this.pInfo.textColor }
       }
+    },
+    onShow() {
+      // 创建方：进入首页时检查自己的邀请码是否已被对方匹配
+      var myCode = store.inviteCode
+      if (!myCode || !store.hasTakenQuiz || this._myChecked) return
+      var alreadyInHistory = store.matchHistory.some(function(m) { return m.partnerInviteCode === myCode })
+      if (alreadyInHistory) { this._myChecked = true; return }
+      var _this = this
+      uniCloud.callFunction({
+        name: 'get-result',
+        data: { inviteCode: myCode }
+      }).then(function(res) {
+        _this._myChecked = true
+        if (res.result && res.result.code === 0 && res.result.data && res.result.data.status === 'matched') {
+          var data = res.result.data
+          var rel = data.result && data.result.relationship
+          var dests = data.result && data.result.destinations
+          var destName = (dests && dests.length > 0) ? dests[0].name : ''
+          var joinerP = data.joiner ? data.joiner.personality : ''
+          setMatch({ partnerName: '好友', partnerPersonality: joinerP, partnerInviteCode: myCode, relationship: rel ? rel.name : '', destination: destName })
+          uni.showToast({ title: '有新匹配结果！', icon: 'none' })
+        }
+      }).catch(function(err) { console.log('check match result error:', err) })
     },
     methods: {
       goQuiz() { uni.navigateTo({ url: "/pages/quiz/index" }) },
@@ -135,14 +158,61 @@
         if (code === store.inviteCode) { uni.showToast({ title: "不能和自己匹配", icon: "none" }); return }
         if (code !== "888888" && hasMatchedBefore(code)) { uni.showToast({ title: "你们已经匹配过了", icon: "none" }); return }
         if (!store.hasTakenQuiz || !store.myResult) { uni.showToast({ title: "请先完成答题", icon: "none" }); return }
+        // 测试码 888888 走本地匹配
+        if (code === '888888') {
+          var partnerInfo = findByInviteCode(code)
+          if (!partnerInfo) { uni.showToast({ title: "邀请码不存在", icon: "none" }); return }
+          var rel = findRelationship(store.myResult.personality, partnerInfo.personality)
+          if (rel) {
+            var dests = recommendDestination(rel, store.myResult.personality, partnerInfo.personality, [], store.myResult.traits, partnerInfo.traits)
+            var destName = (dests && dests.length > 0) ? dests[0].name : ""
+            setMatch({ partnerName: "好友", partnerPersonality: partnerInfo.personality, partnerInviteCode: code, relationship: rel.name, destination: destName })
+            uni.navigateTo({ url: "/pages/result/index?inviteCode=" + code + "&matched=true" })
+          }
+          return
+        }
+        // 调用云函数进行匹配
+        var _this = this
+        uni.showLoading({ title: '匹配中…', mask: true })
+        uniCloud.callFunction({
+          name: 'join-matching',
+          data: {
+            inviteCode: code,
+            userResult: {
+              answers: store.answers,
+              personality: store.myResult.personality,
+              traits: store.myResult.traits
+            }
+          }
+        }).then(function(res) {
+          uni.hideLoading()
+          if (res.result && res.result.code === 0) {
+            var data = res.result.data
+            var rel = data.result && data.result.relationship
+            var dests = data.result && data.result.destinations
+            var destName = (dests && dests.length > 0) ? dests[0].name : ''
+            var partnerPersonality = data.creator ? data.creator.personality : ''
+            setMatch({ partnerName: "好友", partnerPersonality: partnerPersonality, partnerInviteCode: code, relationship: rel ? rel.name : '', destination: destName })
+            markMatched(code)
+            uni.navigateTo({ url: "/pages/result/index?inviteCode=" + code + "&matched=true" })
+          } else {
+            _this._localFallbackMatch(code)
+          }
+        }).catch(function(err) {
+          uni.hideLoading()
+          console.log('cloud match error:', err)
+          _this._localFallbackMatch(code)
+        })
+      },
+      _localFallbackMatch(code) {
         var partnerInfo = findByInviteCode(code)
-        if (!partnerInfo) { uni.showToast({ title: "邀请码不存在，请分享小程序邀请好友答题", icon: "none" }); return }
+        if (!partnerInfo) { uni.showToast({ title: "邀请码不存在或云端匹配失败", icon: "none" }); return }
         var rel = findRelationship(store.myResult.personality, partnerInfo.personality)
         if (rel) {
           var dests = recommendDestination(rel, store.myResult.personality, partnerInfo.personality, [], store.myResult.traits, partnerInfo.traits)
           var destName = (dests && dests.length > 0) ? dests[0].name : ""
           setMatch({ partnerName: "好友", partnerPersonality: partnerInfo.personality, partnerInviteCode: code, relationship: rel.name, destination: destName })
-          if (code !== '888888') { markMatched(code) }
+          markMatched(code)
           uni.navigateTo({ url: "/pages/result/index?inviteCode=" + code + "&matched=true" })
         }
       }
@@ -186,3 +256,5 @@
   .match-input { flex: 1; height: 80rpx; border: 2rpx solid #EFEBE6; border-radius: 14rpx; padding: 0 20rpx; font-size: 28rpx; letter-spacing: 6rpx; text-transform: uppercase; background: #F8F6F4; }
   .match-btn { padding: 20rpx 36rpx; background: linear-gradient(135deg, #FF6B35, #F72585); color: #FFFFFF; border-radius: 14rpx; font-size: 28rpx; font-weight: 600; }
 </style>
+
+

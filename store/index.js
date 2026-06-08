@@ -65,7 +65,14 @@ export function setQuizResult(answers, result) {
 export function setMatch(matchData) {
   state.currentMatch = matchData
   state.matchStatus = 'matched'
-  state.matchHistory.unshift({ date: new Date().toLocaleDateString('zh-CN'), ...matchData })
+  // 去重：通过 partnerInviteCode 判断是否已存在
+  var idx = state.matchHistory.findIndex(function(m) { return m.partnerInviteCode === matchData.partnerInviteCode })
+  var entry = { date: new Date().toLocaleDateString('zh-CN'), ...matchData }
+  if (idx !== -1) {
+    state.matchHistory[idx] = entry
+  } else {
+    state.matchHistory.unshift(entry)
+  }
   saveState()
 }
 
