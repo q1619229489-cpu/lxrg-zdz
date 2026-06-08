@@ -14,28 +14,29 @@
   </view>
 </template>
 <script>
-  import { personalities } from '../../data/personalities.js'
-  import { checkDestinationFit } from '../../utils/destination-fit.js'
-  import { getTeam, joinTeam } from '../../utils/team-store.js'
-  import store from '../../store/index.js'
+  import { personalities } from "../../data/personalities.js"
+  import { checkDestinationFit } from "../../utils/destination-fit.js"
+  import { getTeam, joinTeam, addJoinedTeam } from "../../utils/team-store.js"
+  import store from "../../store/index.js"
   export default {
-    data() { return { personalityName: '', personalityDesc: '', personalityImg: '', fitResult: 'no', fitLabel: '', fitReason: '' } },
-    onLoad(options) {
-      var code = options.code || ''
-      if (!code) { uni.showToast({ title: '组队码无效', icon: 'none' }); return }
-      var teamData = getTeam(code)
-      if (!teamData) { uni.showToast({ title: '组队码不存在', icon: 'none' }); return }
-      if (!store.hasTakenQuiz || !store.myResult) { uni.showToast({ title: '请先完成答题', icon: 'none' }); return }
+    data() { return { personalityName: "", personalityDesc: "", personalityImg: "", fitResult: "no", fitLabel: "", fitReason: "" } },
+    async onLoad(options) {
+      var code = options.code || ""
+      if (!code) { uni.showToast({ title: "组队码无效", icon: "none" }); return }
+      var teamData = await getTeam(code)
+      if (!teamData) { uni.showToast({ title: "组队码不存在", icon: "none" }); return }
+      if (!store.hasTakenQuiz || !store.myResult) { uni.showToast({ title: "请先完成答题", icon: "none" }); return }
       var p = personalities.find(function(x) { return x.id === store.myResult.personality })
       this.personalityName = p ? p.name : store.myResult.personality
-      this.personalityDesc = p ? p.description : ''
-      this.personalityImg = p ? p.imageCropped : ''
+      this.personalityDesc = p ? p.description : ""
+      this.personalityImg = p ? p.imageCropped : ""
       var fitInfo = checkDestinationFit(store.myResult, teamData.destinationName || teamData.destinationId, null)
       this.fitResult = fitInfo.fit; this.fitReason = fitInfo.reason
-      this.fitLabel = fitInfo.fit === 'yes' ? '适合组队' : fitInfo.fit === 'ok' ? '还行' : '不适合'
-      joinTeam(code, { nickName: '', avatarUrl: '', personality: store.myResult.personality, fit: fitInfo.fit, fitReason: fitInfo.reason })
+      this.fitLabel = fitInfo.fit === "yes" ? "适合组队" : fitInfo.fit === "ok" ? "还行" : "不适合"
+      await joinTeam(code, { nickName: "", avatarUrl: "", personality: store.myResult.personality, fit: fitInfo.fit, fitReason: fitInfo.reason })
+      addJoinedTeam(code)
     },
-    methods: { goTeam() { uni.switchTab({ url: '/pages/team/index' }) } }
+    methods: { goTeam() { uni.switchTab({ url: "/pages/team/index" }) } }
   }
 </script>
 <style lang="scss" scoped>

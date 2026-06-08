@@ -11,7 +11,7 @@
         <text class="join-hint">输入好友的组队码，测测你是否适合加入</text>
       </view>
       <view v-if="createdTeams.length > 0" class="card history-section">
-        <text class="section-title">已创建队伍</text>
+        <text class="section-title">我的队伍</text>
         <view class="team-list">
           <view class="team-item" v-for="(t, idx) in createdTeams" :key="idx">
             <view class="team-top">
@@ -28,7 +28,7 @@
                 <view class="tm-member" v-for="(m, mi) in t.members" :key="mi">
                   <image class="tm-avatar" :src="m.avatarUrl" mode="aspectFill"></image>
                   <text class="tm-name">{{ m.nickName }}</text>
-                  <text class="tm-fit-tag" :class="'tag-' + m.fit">{{ m.fit==='yes' ? '适合' : m.fit==='ok' ? '还行' : '不适合' }}</text>
+                  <text class="tm-fit-tag" :class="'tag-' + m.fit">{{ m.fit==="yes" ? "适合" : m.fit==="ok" ? "还行" : "不适合" }}</text>
                 </view>
               </view>
             </view>
@@ -45,10 +45,10 @@
               <image class="match-avatar" :src="getPImage(item.partnerPersonality)" mode="aspectFill"></image>
               <view class="match-info">
                 <text class="match-relation">{{ item.relationship }}</text>
-                <text class="match-partner">和 {{ item.partnerName || '好友' }}</text>
+                <text class="match-partner">和 {{ item.partnerName || "好友" }}</text>
               </view>
             </view>
-            <text class="match-code-btn">{{ teamCodes[idx] ? '已生成' : '生成码' }}</text>
+            <text class="match-code-btn">{{ teamCodes[idx] ? "已生成" : "生成码" }}</text>
           </view>
         </view>
       </view>
@@ -69,30 +69,51 @@
 <script>
   import store from "../../store/index.js"
   import { personalities } from "../../data/personalities.js"
-  import { getOrCreateTeam, getTeam, getAllTeamCodes } from "../../utils/team-store.js"
+  import { getOrCreateTeam, getTeam, getAllTeamCodes, getJoinedTeamCodes } from "../../utils/team-store.js"
   export default {
-    data() { return { store, joinCode: '', showCode: '', teamCodes: {}, createdTeams: [] } },
+    data() { return { store, joinCode: "", showCode: "", teamCodes: {}, createdTeams: [] } },
     computed: { hasMatches() { return store.matchHistory && store.matchHistory.length > 0 } },
     onShow() { this.loadTeams() },
     methods: {
-      getPImage(id) { if (!id) return ''; var p = personalities.find(function(x) { return x.id === id }); return p ? p.imageCropped : '' },
-      countFit(members) { var n = 0; members.forEach(function(m) { if (m.fit === 'yes' || m.fit === 'ok') n++ }); return n },
-      loadTeams() {
-        var idxMap = getAllTeamCodes(); var codes = {}; var list = []; var seen = {}
-        idxMap.forEach(function(item) {
+      getPImage(id) { if (!id) return ""; var p = personalities.find(function(x) { return x.id === id }); return p ? p.imageCropped : "" },
+      countFit(members) { var n = 0; members.forEach(function(m) { if (m.fit === "yes" || m.fit === "ok") n++ }); return n },
+      async loadTeams() {
+        var idxMap = getAllTeamCodes(); var codes = {}; var seen = {}; var list = []
+        // 加载我创建的队伍
+        for (var i = 0; i < idxMap.length; i++) {
+          var item = idxMap[i]
           codes[item.matchIndex] = item.code
-          if (!seen[item.code]) { seen[item.code] = true; var team = getTeam(item.code); if (team) { team.code = item.code; list.push(team) } }
-        })
+          if (!seen[item.code]) {
+            seen[item.code] = true
+            var team = await getTeam(item.code)
+            if (team) { team.code = item.code; list.push(team) }
+          }
+        }
+        // 加载我加入的队伍
+        var joinedCodes = getJoinedTeamCodes()
+        for (var j = 0; j < joinedCodes.length; j++) {
+          var jc = joinedCodes[j]
+          if (!seen[jc]) {
+            seen[jc] = true
+            var joinedTeam = await getTeam(jc)
+            if (joinedTeam) { joinedTeam.code = jc; list.push(joinedTeam) }
+          }
+        }
         this.teamCodes = codes; this.createdTeams = list
       },
-      createTeamForMatch(idx) {
+      async createTeamForMatch(idx) {
         var item = store.matchHistory[idx]; if (!item) return
         if (this.teamCodes[idx]) { this.showCode = this.teamCodes[idx]; return }
-        var code = getOrCreateTeam(idx, { destination: item.destination || '', myPersonality: store.myResult ? store.myResult.personality : '', myTraits: store.myResult ? store.myResult.traits : {}, partnerPersonality: item.partnerPersonality, partnerTraits: {}, relationship: item.relationship })
-        this.teamCodes[idx] = code; this.showCode = code; this.loadTeams()
+        var code = await getOrCreateTeam(idx, item)
+        if (!code) { uni.showToast({ title: "创建失败，请重试", icon: "none" }); return }
+        this.teamCodes[idx] = code; this.showCode = code
+        this.loadTeams()
       },
-      doJoin() { var code = this.joinCode.trim(); if (!/^\d{8}$/.test(code)) { uni.showToast({ title: '请输入8位数字组队码', icon: 'none' }); return }; uni.navigateTo({ url: '/pages/team-join/index?code=' + code }) },
-      copyCode() { if (!this.showCode) return; uni.setClipboardData({ data: this.showCode, success: function() { uni.showToast({ title: '已复制', icon: 'none' }) } }) }
+      doJoin() {
+        var code = this.joinCode.replace(/\s/g, "")
+        if (code.length !== 8 || !/^\d+$/.test(code)) { uni.showToast({ title: "请输入8位数字组队码", icon: "none" }); return }; uni.navigateTo({ url: "/pages/team-join/index?code=" + code })
+      },
+      copyCode() { if (!this.showCode) return; uni.setClipboardData({ data: this.showCode, success: function() { uni.showToast({ title: "已复制", icon: "none" }) } }) }
     }
   }
 </script>

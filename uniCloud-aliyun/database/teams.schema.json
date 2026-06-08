@@ -1,0 +1,64 @@
+﻿{
+  "bsonType": "object",
+  "required": ["code", "destinationName", "destinationId", "pairA", "pairB", "relationshipName", "status"],
+  "properties": {
+    "code": {
+      "bsonType": "string",
+      "description": "8位数字组队码",
+      "minLength": 8,
+      "maxLength": 8
+    },
+    "destinationName": {
+      "bsonType": "string",
+      "description": "目的地名称"
+    },
+    "destinationId": {
+      "bsonType": "int",
+      "description": "目的地ID"
+    },
+    "pairA": {
+      "bsonType": "object",
+      "description": "创建者的配对信息",
+      "properties": {
+        "personality": { "bsonType": "string" },
+        "traits": { "bsonType": "object" }
+      }
+    },
+    "pairB": {
+      "bsonType": "object",
+      "description": "匹配对象的配对信息",
+      "properties": {
+        "personality": { "bsonType": "string" },
+        "traits": { "bsonType": "object" }
+      }
+    },
+    "relationshipName": {
+      "bsonType": "string",
+      "description": "关系名称"
+    },
+    "members": {
+      "bsonType": "array",
+      "description": "加入的成员列表",
+      "items": {
+        "bsonType": "object",
+        "properties": {
+          "nickName": { "bsonType": "string" },
+          "avatarUrl": { "bsonType": "string" },
+          "personality": { "bsonType": "string" },
+          "fit": { "bsonType": "string", "enum": ["yes", "ok", "no"] },
+          "fitReason": { "bsonType": "string" }
+        }
+      }
+    },
+    "status": {
+      "bsonType": "string",
+      "enum": ["active", "full"]
+    },
+    "createdAt": {
+      "bsonType": "timestamp"
+    },
+    "updatedAt": {
+      "bsonType": "timestamp"
+    }
+  }
+}
