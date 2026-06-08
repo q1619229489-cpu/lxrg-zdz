@@ -16,8 +16,8 @@
   { id: 3, text: '到了住宿的地方，你最先关注的是：', options: [
     { text: '附近三公里内有什么好吃的店', personality: '吗当喽', traits: { action: 1, planning: 0, photo: 0, spontaneity: 1, food: 3, budget: 0 } },
     { text: '床垫软不软、枕头高不高、空调够不够冷', personality: '卡皮巴适', traits: { action: -2, planning: 0, photo: 0, spontaneity: 1, food: 1, budget: 0 } },
-    { text: '窗外风景好不好看、阳台能拍到什么', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 3, spontaneity: 0, food: 0, budget: 0 } },
-    { text: '打开地图研究明天的最佳路线', personality: '特种兵', traits: { action: 2, planning: 2, photo: 0, spontaneity: -1, food: 0, budget: 0 } },
+    { text: '附近有没有好看的打卡圣地', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 3, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '早点休息，明天好疯玩一整天', personality: '特种兵', traits: { action: 2, planning: 2, photo: 0, spontaneity: -1, food: 0, budget: 0 } },
     { text: '检查房间设施是否和预订时说的一样', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: -1, food: 0, budget: 1 } }
   ]},
   { id: 4, text: '旅途中突然下大雨，你会：', options: [
@@ -29,23 +29,23 @@
   ]},
   { id: 5, text: '朋友提议去一个没听过的景点，你会：', options: [
     { text: '先查攻略看评分再决定', personality: '预制人', traits: { action: 0, planning: 3, photo: 0, spontaneity: -2, food: 0, budget: 1 } },
-    { text: '走啊，没听过才刺激', personality: '哈基迷', traits: { action: 1, planning: -2, photo: 1, spontaneity: 3, food: 0, budget: 0 } },
+    { text: '随缘咯，反正也是到处乱逛', personality: '哈基迷', traits: { action: 1, planning: -2, photo: 1, spontaneity: 3, food: 0, budget: 0 } },
     { text: '远不远？太远就不去了', personality: '卡皮巴适', traits: { action: -2, planning: 1, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
     { text: '先问那边有什么好吃的', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 1, food: 3, budget: 0 } },
-    { text: '能出片吗？值得带相机去吗', personality: '摄影大师', traits: { action: 0, planning: 1, photo: 3, spontaneity: 1, food: -1, budget: 0 } }
+    { text: '能不能出片？', personality: '摄影大师', traits: { action: 0, planning: 1, photo: 3, spontaneity: 1, food: -1, budget: 0 } }
   ]},
   { id: 6, text: '你的旅行闹钟一般定在：', options: [
-    { text: '凌晨四点半，为了看日出', personality: '特种兵', traits: { action: 3, planning: 1, photo: 0, spontaneity: -1, food: -1, budget: 0 } },
+    { text: '越早越好，为了能去更多景点', personality: '特种兵', traits: { action: 3, planning: 1, photo: 0, spontaneity: -1, food: -1, budget: 0 } },
     { text: '自然醒，旅行就是用来休息的', personality: '卡皮巴适', traits: { action: -2, planning: -1, photo: 0, spontaneity: 1, food: 0, budget: 0 } },
     { text: '调好几个闹钟，每个景点对应一个时间', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: -1, food: 0, budget: 0 } },
     { text: '设一个，但不会起床，关了继续睡', personality: '哈基迷', traits: { action: -1, planning: -2, photo: 0, spontaneity: 2, food: 0, budget: 0 } },
     { text: '日出前半小时，为了拍到晨光', personality: '摄影大师', traits: { action: 1, planning: 0, photo: 3, spontaneity: 0, food: 0, budget: 0 } }
   ]},
   { id: 7, text: '你觉得以下哪种旅行方式最吸引你：', options: [
-    { text: '一天走完八个景点，朋友圈发九张图', personality: '特种兵', traits: { action: 2, planning: 0, photo: 1, spontaneity: -1, food: -1, budget: 0 } },
+    { text: '一天走完八个景点', personality: '特种兵', traits: { action: 2, planning: 0, photo: 1, spontaneity: -1, food: -1, budget: 0 } },
     { text: '睡到自然醒，在酒店看剧点外卖', personality: '卡皮巴适', traits: { action: -2, planning: -1, photo: 0, spontaneity: 1, food: 1, budget: 0 } },
     { text: '一条街从头吃到尾，每家店都不放过', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 1, food: 3, budget: 0 } },
-    { text: '找一个人少的地方发呆拍照', personality: '摄影大师', traits: { action: -1, planning: 0, photo: 2, spontaneity: 1, food: 0, budget: 0 } },
+    { text: '找一个人少的宝藏地点拍照', personality: '摄影大师', traits: { action: -1, planning: 0, photo: 2, spontaneity: 1, food: 0, budget: 0 } },
     { text: '跟着感觉走，没有计划就是最好的计划', personality: '哈基迷', traits: { action: 0, planning: -2, photo: 0, spontaneity: 3, food: 0, budget: 0 } }
   ]},
   { id: 8, text: '旅行中你最不能接受的是：', options: [
@@ -53,12 +53,12 @@
     { text: '吃得太差，旅行不就是为了吃吗', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 3, budget: 0 } },
     { text: '拍照不好看，白来了', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 3, spontaneity: 0, food: 0, budget: 0 } },
     { text: '计划被打乱，一切不在掌控中', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: -1, food: 0, budget: 1 } },
-    { text: '人太多太挤，喘不过气', personality: '哈基迷', traits: { action: 0, planning: 0, photo: 0, spontaneity: 1, food: 0, budget: 0 } }
+    { text: '人生地不熟，找不到方向', personality: '哈基迷', traits: { action: 0, planning: 0, photo: 0, spontaneity: 1, food: 0, budget: 0 } }
   ]},
   { id: 9, text: '看到别人发的旅行朋友圈，你最先关注的是：', options: [
-    { text: '这地方我也去过！他去的景点够不够硬核', personality: '特种兵', traits: { action: 2, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '这地方我也去过！', personality: '特种兵', traits: { action: 2, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
     { text: '吃的看起来怎么样，求地址', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 3, budget: 0 } },
-    { text: '照片构图和调色怎么样', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 3, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '照片拍的好不好看', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 3, spontaneity: 0, food: 0, budget: 0 } },
     { text: '这条路线我早就做好攻略了', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: -1, food: 0, budget: 0 } },
     { text: '好美啊，下次我也要去（然后忘掉）', personality: '哈基迷', traits: { action: 0, planning: -1, photo: 1, spontaneity: 2, food: 0, budget: 0 } }
   ]},
@@ -78,59 +78,59 @@
   ]},
   { id: 12, text: '你的旅行预算通常是：', options: [
     { text: '能省则省，住青旅吃路边摊也行', personality: '特种兵', traits: { action: 2, planning: 0, photo: 0, spontaneity: 0, food: -1, budget: 3 } },
-    { text: '该花就花，但会在票务上比价很久', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: 0, food: 0, budget: 2 } },
+    { text: '该花就花，但会在多个平台比价很久', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: 0, food: 0, budget: 2 } },
     { text: '吃上面不省，其他可以将就', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 3, budget: -1 } },
-    { text: '住和吃都随缘，钱不是问题', personality: '哈基迷', traits: { action: 0, planning: -2, photo: 0, spontaneity: 1, food: 0, budget: -2 } },
-    { text: '为好看的民宿和餐厅可以多花钱', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 0, food: 1, budget: -2 } }
+    { text: '住和吃都随缘，好玩就行', personality: '哈基迷', traits: { action: 0, planning: -2, photo: 0, spontaneity: 1, food: 0, budget: -2 } },
+    { text: '只要去的地方好看，多花点钱都行', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 0, food: 1, budget: -2 } }
   ]},
   { id: 13, text: '旅途中朋友迷路了，你会：', options: [
-    { text: '拿出手机导航，快速找到正确路线', personality: '特种兵', traits: { action: 2, planning: 0, photo: 0, spontaneity: -1, food: 0, budget: 0 } },
+    { text: '拿出手机导航，我来带路', personality: '特种兵', traits: { action: 2, planning: 0, photo: 0, spontaneity: -1, food: 0, budget: 0 } },
     { text: '没事，迷路也是旅行的乐趣', personality: '哈基迷', traits: { action: 0, planning: -2, photo: 1, spontaneity: 3, food: 0, budget: 0 } },
     { text: '先找个地方坐下来，不急慢慢找', personality: '卡皮巴适', traits: { action: -2, planning: 0, photo: 0, spontaneity: 1, food: 0, budget: 0 } },
-    { text: '正好可以拍到意外的风景', personality: '摄影大师', traits: { action: -1, planning: 0, photo: 2, spontaneity: 1, food: 0, budget: 0 } },
-    { text: '拿出提前存好的离线地图', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: -1, food: 0, budget: 1 } }
-  ]},
-  { id: 14, text: '你朋友圈发旅行的频率是：', options: [
-    { text: '每天发好几条，实时直播', personality: '特种兵', traits: { action: 1, planning: 0, photo: 0, spontaneity: -1, food: 0, budget: 0 } },
-    { text: '回来整理好再发九宫格', personality: '摄影大师', traits: { action: 0, planning: 1, photo: 3, spontaneity: 0, food: 0, budget: 0 } },
-    { text: '可能发一条，也可能不发，看心情', personality: '卡皮巴适', traits: { action: -1, planning: 0, photo: -1, spontaneity: 1, food: 0, budget: 0 } },
-    { text: '只发吃的，风景是什么？', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 3, budget: 0 } },
-    { text: '懒得发，自己开心就好', personality: '哈基迷', traits: { action: 0, planning: -1, photo: -1, spontaneity: 1, food: 0, budget: 0 } }
+    { text: '正好可以看到意外的风景', personality: '摄影大师', traits: { action: -1, planning: 0, photo: 2, spontaneity: 1, food: 0, budget: 0 } },
+    { text: '拿出提前准备好的计划', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: -1, food: 0, budget: 1 } }
+  ]},  { id: 14, text: '如果旅途中你手机快没电了，你会想：', options: [
+    { text: '我的步数记录不了了', personality: '特种兵', traits: { action: 1, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '不慌不忙，拿出准备好的充电宝', personality: '预制人', traits: { action: 0, planning: 1, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '还是先回旅店吧', personality: '卡皮巴适', traits: { action: -1, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '买不到好吃的了', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 2, budget: 0 } },
+    { text: '错过好多拍照机会，难受', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 0, food: 0, budget: 0 } }
+  ]}
   ]},
   { id: 15, text: '你对"特产"的态度是：', options: [
     { text: '买当地特色食品，回家慢慢吃', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 2, budget: 0 } },
-    { text: '买冰箱贴等小纪念品，不占地方', personality: '特种兵', traits: { action: 1, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 1 } },
+    { text: '买特产只会占用我旅行的时间', personality: '特种兵', traits: { action: 1, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 1 } },
     { text: '不买，嫌麻烦嫌重', personality: '卡皮巴适', traits: { action: -1, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
-    { text: '买好看的文创产品，拍照好看', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 0, food: 0, budget: -1 } },
-    { text: '提前列好特产清单，按清单采购', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: -1, food: 0, budget: 1 } }
+    { text: '买好看的文创产品，有纪念意义', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 0, food: 0, budget: -1 } },
+    { text: '提前列好特产清单，能买就买', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: -1, food: 0, budget: 1 } }
   ]}
 ]
 
 export const questionsPart2 = [
-  { id: 16, text: '朋友说"我们拍张合影吧"，你会：', options: [
+  { id: 16, text: '朋友说\"我们拍张合影吧\"，你会更倾向于：', options: [
     { text: '好，速战速决，别耽误时间', personality: '特种兵', traits: { action: 2, planning: 0, photo: -1, spontaneity: 0, food: 0, budget: 0 } },
     { text: '找角度调光线，拍满意为止', personality: '摄影大师', traits: { action: -1, planning: 1, photo: 3, spontaneity: -1, food: 0, budget: 0 } },
     { text: '随便拍一张就行，又不发朋友圈', personality: '卡皮巴适', traits: { action: -1, planning: -1, photo: -2, spontaneity: 1, food: 0, budget: 0 } },
     { text: '拍完先发给我，我要发朋友圈', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 1, budget: 0 } },
-    { text: '先确认构图和光线，再找最佳角度', personality: '预制人', traits: { action: 0, planning: 2, photo: 1, spontaneity: -1, food: 0, budget: 0 } }
+    { text: '先查查有没有拍照技巧', personality: '预制人', traits: { action: 0, planning: 2, photo: 1, spontaneity: -1, food: 0, budget: 0 } }
   ]},
   { id: 17, text: '你在路上的状态更接近：', options: [
     { text: '健步如飞，朋友在后面追着喊慢点', personality: '特种兵', traits: { action: 3, planning: 0, photo: -1, spontaneity: 0, food: -1, budget: 0 } },
     { text: '走走停停，看到好看的就要停下来', personality: '摄影大师', traits: { action: -2, planning: 0, photo: 3, spontaneity: 1, food: 0, budget: 0 } },
     { text: '慢悠悠地晃，走两步就想坐', personality: '卡皮巴适', traits: { action: -2, planning: -1, photo: 0, spontaneity: 1, food: 0, budget: 0 } },
     { text: '拿着手机导航还走错路', personality: '哈基迷', traits: { action: 0, planning: -2, photo: 0, spontaneity: 2, food: 0, budget: 0 } },
-    { text: '边走边确认路线是否和攻略一致', personality: '预制人', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 3, budget: 0 } }
+    { text: '边走边确认有没有和计划偏差太多', personality: '预制人', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 3, budget: 0 } }
   ]},
   { id: 18, text: '到一个陌生城市，你最先打开的是：', options: [
     { text: '地图软件，标记所有想去的地方', personality: '预制人', traits: { action: 1, planning: 3, photo: 0, spontaneity: -2, food: 0, budget: 0 } },
     { text: '美食软件，看看附近评分高的店', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 3, budget: 0 } },
     { text: '相机，先拍几张街景找找感觉', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 3, spontaneity: 0, food: 0, budget: 0 } },
-    { text: '消息软件，先发个定位再说', personality: '卡皮巴适', traits: { action: -1, planning: 0, photo: 0, spontaneity: 1, food: 0, budget: 0 } },
-    { text: '打车软件，随便输个地名过去看看', personality: '哈基迷', traits: { action: 0, planning: -2, photo: 1, spontaneity: 3, food: 0, budget: -1 } }
+    { text: '打车软件，先回酒店休息会再说', personality: '卡皮巴适', traits: { action: -1, planning: 0, photo: 0, spontaneity: 1, food: 0, budget: 0 } },
+    { text: '随便看看', personality: '哈基迷', traits: { action: 0, planning: -2, photo: 1, spontaneity: 3, food: 0, budget: -1 } }
   ]},
   { id: 19, text: '旅游攻略你一般怎么做：', options: [
-    { text: '做Excel表格，精确到每个小时', personality: '预制人', traits: { action: 0, planning: 3, photo: 0, spontaneity: -3, food: 0, budget: 1 } },
-    { text: '网上搜几个必去景点记在备忘录', personality: '特种兵', traits: { action: 2, planning: 1, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '做详细的攻略', personality: '预制人', traits: { action: 0, planning: 3, photo: 0, spontaneity: -3, food: 0, budget: 1 } },
+    { text: '把行程安排得满满当当的', personality: '特种兵', traits: { action: 2, planning: 1, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
     { text: '只看美食攻略，景点随缘', personality: '吗当喽', traits: { action: 0, planning: 0, photo: -1, spontaneity: 1, food: 3, budget: 0 } },
     { text: '小红书上搜拍照机位，其他不重要', personality: '摄影大师', traits: { action: 0, planning: 1, photo: 3, spontaneity: 0, food: -1, budget: 0 } },
     { text: '不做攻略，到了再说', personality: '哈基迷', traits: { action: 0, planning: -2, photo: 0, spontaneity: 3, food: 0, budget: 2 } }
@@ -143,32 +143,32 @@ export const questionsPart2 = [
     { text: '历史人文底蕴深厚，得提前做功课的', personality: '预制人', traits: { action: -2, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: -1 } }
   ]},
   { id: 21, text: '你的旅行鞋更可能是：', options: [
-    { text: '专业跑步鞋，日均两万步不是梦', personality: '特种兵', traits: { action: 3, planning: 0, photo: 0, spontaneity: -1, food: 0, budget: 0 } },
-    { text: '拖鞋，舒服最重要', personality: '卡皮巴适', traits: { action: -2, planning: -1, photo: 0, spontaneity: 1, food: 0, budget: 0 } },
-    { text: '百搭小白鞋，出片又舒服', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 0, food: 0, budget: 0 } },
-    { text: '随便穿一双，走了再说', personality: '哈基迷', traits: { action: 0, planning: -1, photo: 0, spontaneity: 1, food: 0, budget: 0 } },
-    { text: '根据不同行程搭配不同的鞋', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: 0, food: 0, budget: -1 } }
-  ]},
-  { id: 22, text: '你会在当地买什么作为旅行纪念：', options: [
-    { text: '不买，嫌重嫌麻烦', personality: '特种兵', traits: { action: 1, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 1 } },
-    { text: '当地特色零食', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 2, budget: 0 } },
-    { text: '冰箱贴、明信片', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 1, spontaneity: 0, food: 0, budget: 0 } },
-    { text: '好看就行，买了再说', personality: '哈基迷', traits: { action: 0, planning: -1, photo: 0, spontaneity: 1, food: 0, budget: -1 } },
-    { text: '只买提前列在清单上的', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: 0, food: 0, budget: 1 } }
-  ]},
-  { id: 23, text: '你看旅行攻略时最关注：', options: [
-    { text: '必去景点清单和路线安排', personality: '特种兵', traits: { action: 2, planning: 1, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
-    { text: '必吃美食推荐', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 3, budget: 0 } },
-    { text: '拍照机位和最佳时间', personality: '摄影大师', traits: { action: 0, planning: 1, photo: 3, spontaneity: 0, food: 0, budget: 0 } },
-    { text: '详细的时间规划和费用预估', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: -1, food: 0, budget: 1 } },
-    { text: '随便看看，大概了解下', personality: '哈基迷', traits: { action: 0, planning: -1, photo: 0, spontaneity: 2, food: 0, budget: 0 } }
-  ]},
-  { id: 24, text: '如果旅行中遇到计划外的事情，你的第一反应是：', options: [
-    { text: '迅速调整计划，看怎么能补救', personality: '特种兵', traits: { action: 2, planning: 1, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
-    { text: '算了，回酒店躺着更好', personality: '卡皮巴适', traits: { action: -2, planning: -1, photo: 0, spontaneity: 1, food: 0, budget: 0 } },
-    { text: '刚好可以去附近找点好吃的', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 1, food: 2, budget: 0 } },
-    { text: '拿起相机记录意外', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 1, food: 0, budget: 0 } },
-    { text: '挺有意思的，看会发生什么', personality: '哈基迷', traits: { action: 0, planning: -1, photo: 0, spontaneity: 3, food: 0, budget: 0 } }
+    { text: '运动鞋，日均两万步不是梦', personality: '特种兵', traits: { action: 3, planning: 0, photo: 0, spontaneity: -1, food: 0, budget: 0 } },
+    { text: '舒服最重要', personality: '卡皮巴适', traits: { action: -2, planning: -1, photo: 0, spontaneity: 1, food: 0, budget: 0 } },
+    { text: '哪双好看出片就选', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '随便选一双吧', personality: '哈基迷', traits: { action: 0, planning: -1, photo: 0, spontaneity: 1, food: 0, budget: 0 } },
+    { text: '多准备几双鞋，万一用上了呢', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: 0, food: 0, budget: -1 } }
+  ]},  { id: 22, text: '你在旅途中看到排长队的网红店，你会想：', options: [
+    { text: '排！来都来了', personality: '特种兵', traits: { action: 2, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '看看卖什么的，是吃的就排', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 2, budget: 0 } },
+    { text: '只会耽误了我拍照打卡', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 1, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '算了，我只想早点逛完', personality: '卡皮巴适', traits: { action: -1, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '不排，因为我查过攻略避雷了', personality: '预制人', traits: { action: 0, planning: 1, photo: 0, spontaneity: 0, food: 0, budget: 0 } }
+  ]}
+  ]},  { id: 23, text: '你对旅行住宿的选择更看重什么？', options: [
+    { text: '位置好，方便去各个景点', personality: '特种兵', traits: { action: 1, planning: 1, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '床舒服，能好好休息就行', personality: '卡皮巴适', traits: { action: -1, planning: 0, photo: 0, spontaneity: 1, food: 0, budget: 0 } },
+    { text: '附近美食多，下楼就能吃', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 2, budget: 0 } },
+    { text: '装修好看，拍照出片', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '性价比高，提前比价选好', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: 0, food: 0, budget: 1 } }
+  ]}
+  ]},  { id: 24, text: '旅行中计划有变，你有半天自由时间，你更愿意怎么度过？', options: [
+    { text: '多打卡几个地方', personality: '特种兵', traits: { action: 2, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '找个地方坐下来，放空自己', personality: '卡皮巴适', traits: { action: 0, planning: 0, photo: 0, spontaneity: 1, food: 0, budget: 0 } },
+    { text: '去找当地有名的美食', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 2, budget: 0 } },
+    { text: '去一个出片率高的小众景点', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '按照自己之前计划进行', personality: '预制人', traits: { action: 0, planning: 1, photo: 0, spontaneity: 0, food: 0, budget: 0 } }
+  ]}
   ]},
   { id: 25, text: '你心中完美的旅行日应该是：', options: [
     { text: '五点起床看日出，上午逛三个景点', personality: '特种兵', traits: { action: 3, planning: 1, photo: 0, spontaneity: -1, food: -1, budget: 0 } },
@@ -202,15 +202,15 @@ export const questionsPart2 = [
     { text: '意犹未尽，还有好多地方没去', personality: '特种兵', traits: { action: 2, planning: 1, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
     { text: '终于可以回家躺平了', personality: '卡皮巴适', traits: { action: -2, planning: -1, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
     { text: '最后再吃一顿好的再走', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 3, budget: 0 } },
-    { text: '照片还没修完，路上先发个九宫格', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 3, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '拍了好多好看的照片，回去要好好修修', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 3, spontaneity: 0, food: 0, budget: 0 } },
     { text: '好神奇的旅程，完全没想到会是这样', personality: '哈基迷', traits: { action: 0, planning: -1, photo: 0, spontaneity: 3, food: 0, budget: 0 } }
-  ]},
-  { id: 30, text: '下一次旅行你想去哪里？（可多选）', multi: true, options: [
-    { text: '川西或云南，徒步看自然风光', personality: '特种兵', traits: { action: 2, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
-    { text: '成都或长沙，为了吃可以飞过去', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 2, budget: 0 } },
-    { text: '日本或欧洲，随便逛都出片', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 1, food: 0, budget: -1 } },
-    { text: '欧洲或日本，可以提前三个月做攻略', personality: '预制人', traits: { action: -2, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: -1 } },
-    { text: '没想好，看心情看缘分', personality: '哈基迷', traits: { action: 0, planning: -2, photo: 0, spontaneity: 2, food: 0, budget: 0 } }
+  ]},  { id: 30, text: '下一次旅行，你比较看重哪些？（可多选）', multi: true, options: [
+    { text: '自然风光适合徒步', personality: '特种兵', traits: { action: 2, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '美食圣地', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 2, budget: 0 } },
+    { text: '打卡圣地好出片', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '攻略是否好做', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
+    { text: '没想好，看心情看缘分', personality: '哈基迷', traits: { action: 0, planning: 0, photo: 0, spontaneity: 2, food: 0, budget: 0 } }
+  ]}
   ]}
 ]
 
