@@ -63,21 +63,68 @@
         var inviteCode = uni.getStorageSync('pendingInviteCode')
         if (inviteCode) {
           uni.removeStorageSync('pendingInviteCode')
-          try {
-            var map = JSON.parse(uni.getStorageSync('travelBuddy_inviteMap') || '{}')
-            var partnerInfo = map[inviteCode]
-            if (partnerInfo) {
-              var rel = findRelationship(result.personality, partnerInfo.personality)
-              if (rel) {
-                var dests = recommendDestination(rel, result.personality, partnerInfo.personality, [], result.traits, partnerInfo.traits)
-                var destName = (dests && dests.length > 0) ? dests[0].name : ''
-                setMatch({ partnerName: '好友', partnerPersonality: partnerInfo.personality, partnerInviteCode: inviteCode, relationship: rel.name, destination: destName })
-                markMatched(inviteCode)
-              }
+          uni.showLoading({ title: '匹配中…', mask: true })
+          // 通过云函数完成匹配，确保双方数据都能查到
+          uniCloud.callFunction({
+            name: 'join-matching',
+            data: { inviteCode: inviteCode, userResult: result }
+          }).then(function(res) {
+            uni.hideLoading()
+            if (res.result && res.result.code === 0) {
+              var data = res.result.data
+              var rel = data.result && data.result.relationship
+              var dests = data.result && data.result.destinations
+              var destName = (dests && dests.length > 0) ? dests[0].name : ''
+              var partnerPersonality = data.creator ? data.creator.personality : ''
+              setMatch({ partnerName: '好友', partnerPersonality: partnerPersonality, partnerInviteCode: inviteCode, relationship: rel ? rel.name : '', destination: destName })
+              markMatched(inviteCode)
+              uni.redirectTo({ url: '/pages/result/index?inviteCode=' + inviteCode + '&matched=true' })
+            } else {
+              // 云函数失败时降级为本地匹配
+              try {
+                var map = JSON.parse(uni.getStorageSync('travelBuddy_inviteMap') || '{}')
+                var partnerInfo = map[inviteCode]
+                if (partnerInfo) {
+                  var rel = findRelationship(result.personality, partnerInfo.personality)
+                  if (rel) {
+                    var dests = recommendDestination(rel, result.personality, partnerInfo.personality, [], result.traits, partnerInfo.traits)
+                    var destName = (dests && dests.length > 0) ? dests[0].name : ''
+                    setMatch({ partnerName: '好友', partnerPersonality: partnerInfo.personality, partnerInviteCode: inviteCode, relationship: rel.name, destination: destName })
+                    markMatched(inviteCode)
+                  }
+                }
+              } catch(e) { console.log('fallback match error:', e) }
+              uni.redirectTo({ url: '/pages/result/index?inviteCode=' + inviteCode + '&matched=true' })
             }
-          } catch(e) { console.log('auto match error:', e) }
-          uni.redirectTo({ url: '/pages/result/index?inviteCode=' + inviteCode + '&matched=true' })
-        } else { uni.redirectTo({ url: '/pages/invite/index' }) }
+          }).catch(function(err) {
+            uni.hideLoading()
+            console.log('cloud match error:', err)
+            // 降级本地匹配
+            try {
+              var map = JSON.parse(uni.getStorageSync('travelBuddy_inviteMap') || '{}')
+              var partnerInfo = map[inviteCode]
+              if (partnerInfo) {
+                var rel = findRelationship(result.personality, partnerInfo.personality)
+                if (rel) {
+                  var dests = recommendDestination(rel, result.personality, partnerInfo.personality, [], result.traits, partnerInfo.traits)
+                  var destName = (dests && dests.length > 0) ? dests[0].name : ''
+                  setMatch({ partnerName: '好友', partnerPersonality: partnerInfo.personality, partnerInviteCode: inviteCode, relationship: rel.name, destination: destName })
+                  markMatched(inviteCode)
+                }
+              }
+            } catch(e) { console.log('fallback match error:', e) }
+            uni.redirectTo({ url: '/pages/result/index?inviteCode=' + inviteCode + '&matched=true' })
+          })
+        } else {
+          // 创建方：将邀请码推上云，供对方匹配
+          try {
+            uniCloud.callFunction({
+              name: 'create-matching',
+              data: { inviteCode: store.inviteCode, userResult: result }
+            })
+          } catch(e) { console.log('create matching error:', e) }
+          uni.redirectTo({ url: '/pages/invite/index' })
+        }
       },
       goBack() { uni.navigateBack() }
     }
@@ -111,3 +158,4 @@
   .quiz-next-btn { width: 100%; padding: 26rpx 0; background: linear-gradient(135deg, #FF6B35, #F72585); color: #FFFFFF; border-radius: 16rpx; font-size: 30rpx; font-weight: 600; text-align: center; }
   .btn-disabled { opacity: 0.4; }
 </style>
+
