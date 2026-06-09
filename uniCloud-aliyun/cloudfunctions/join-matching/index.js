@@ -1,4 +1,5 @@
 ﻿const db = uniCloud.database()
+const { findRelationship, recommendDestination } = require('matching-data')
 
 exports.main = async (event, context) => {
   const { inviteCode, userResult } = event
@@ -19,16 +20,14 @@ exports.main = async (event, context) => {
 
   const record = res.data[0]
 
-  // 导入匹配计算
-  const { findRelationship } = require('../../data/relationships.js')
-  const { recommendDestination } = require('../../data/destinations.js')
-
   const relationship = findRelationship(record.creator.personality, userResult.personality)
   const destinations = recommendDestination(
     relationship,
+    record.creator.personality,
+    userResult.personality,
+    [],
     record.creator.traits,
-    userResult.traits,
-    []
+    userResult.traits
   )
 
   // 更新匹配记录

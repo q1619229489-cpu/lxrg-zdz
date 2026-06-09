@@ -1,4 +1,4 @@
-﻿const { checkDestinationFit } = require('../../utils/destination-fit.js')
+﻿const { checkDestinationFit } = require('matching-data')
 
 exports.main = async (event, context) => {
   const { personality, destinationId, relationship } = event
