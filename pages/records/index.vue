@@ -63,7 +63,7 @@
         var partnerP = that.getPersonalityObj(item.partnerPersonality)
         var myImgPath = myP ? myP.imageCropped : null
         var partnerImgPath = partnerP ? partnerP.imageCropped : null
-        var qrPath = '/static/images/qr-code.jpg'
+        var qrPath = 'https://cdn.jsdelivr.net/gh/q1619229489-cpu/travel-buddy-images@main/qr-code.jpg'
         var relName = item.relationship || '未知组合'; var destName = item.destination || ''
         var partnerLabel = item.partnerName || '好友'; var myName = myP ? myP.name : store.myResult.personality; var partnerName = partnerP ? partnerP.name : item.partnerPersonality
         var myDataUrl = myImgPath ? that.imgToDataUrl(myImgPath) : null; var partnerDataUrl = partnerImgPath ? that.imgToDataUrl(partnerImgPath) : null; var qrDataUrl = that.imgToDataUrl(qrPath)

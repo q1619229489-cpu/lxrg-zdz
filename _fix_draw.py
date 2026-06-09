@@ -5,7 +5,7 @@
       <view class="relation-card-wrap" v-if="matchResult">
         <text class="section-label">你们的搭子关系</text>
         <view class="relation-card">
-          <image class="relation-image" :src="'https://cdn.jsdelivr.net/gh/q1619229489-cpu/travel-buddy-images@main/zuhe/' + matchResult.relationship.name + getZuheExt(matchResult.relationship.name)" mode="aspectFit" :style="relImgStyle" @load="onRelImgLoad"></image>
+          <image class="relation-image" :src="'/static/images/zuhe/' + matchResult.relationship.name + getZuheExt(matchResult.relationship.name)" mode="aspectFit" :style="relImgStyle" @load="onRelImgLoad"></image>
           <view class="relation-card-foot">
             <text class="relation-name">{{ matchResult.relationship.name }}</text>
             <view class="relation-desc">{{ matchResult.relationship.desc }}</view>
@@ -74,48 +74,73 @@
         var map = { '快到模糊组': '.jpeg', '松弛与急迫组': '.jpeg', '步数排行榜冠亚军': '.jpeg', '难以望其项背': '.jpg' }
         return map[name] || '.png'
       },
-      getMime(ext) { return ext === '.png' ? 'image/png' : 'image/jpeg' },
-      imgToDataUrl(path) { try { var fs = wx.getFileSystemManager(); var base64 = fs.readFileSync(path, 'base64'); if (!base64 || base64.length < 20) return null; var ext = path.split('.').pop().toLowerCase(); return 'data:' + (ext === 'png' ? 'image/png' : 'image/jpeg') + ';base64,' + base64 } catch(e) { return null } },
       saveResultCard() {
         var that = this; var rel = that.matchResult && that.matchResult.relationship
         if (!rel) { uni.showToast({ title: '暂无匹配结果', icon: 'none' }); return }
         uni.showLoading({ title: '生成卡片中…' })
-        var zuhePath = 'https://cdn.jsdelivr.net/gh/q1619229489-cpu/travel-buddy-images@main/zuhe/' + rel.name + that.getZuheExt(rel.name); var qrPath = 'https://cdn.jsdelivr.net/gh/q1619229489-cpu/travel-buddy-images@main/qr-code.jpg'; var inviteCode = that.store.inviteCode || '------'
-        var zuheDataUrl = that.imgToDataUrl(zuhePath); var qrDataUrl = that.imgToDataUrl(qrPath)
+        var zuhePath = '/static/images/zuhe/' + rel.name + that.getZuheExt(rel.name)
+        var inviteCode = that.store.inviteCode || '------'
         var query = uni.createSelectorQuery().in(that)
         query.select('#saveCardCanvas').node(function(res) {
           if (!res || !res.node) { uni.hideLoading(); uni.showToast({ title: '画布初始化失败', icon: 'none' }); return }
           var canvas = res.node, ctx = canvas.getContext('2d'); var W = 600, H = 950, CX = 300; canvas.width = W; canvas.height = H; var zuheImg = null, qrImg = null; var drawn = false
           function rr(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath() }
+          function loadCanvasImg(src, cb) { if (!src) { cb(null); return }
+            var img;
+            // #ifdef H5
+            img = new window.Image();
+            img.crossOrigin = 'anonymous';
+            // #endif
+            // #ifndef H5
+            img = canvas.createImage();
+            // #endif
+            img.onload = function() { cb(img) }; img.onerror = function() { console.log('canvas img fail:', src); cb(null) }
+            img.src = src
+          }
+          function doSave(tempPath) {
+            uni.hideLoading()
+            // #ifdef H5
+            // Use toBlob for reliable download (avoids data URL size limits)
+            canvas.toBlob(function(blob) {
+              var url = URL.createObjectURL(blob);
+              var a = document.createElement('a'); a.href = url; a.download = 'travel-buddy-card.png'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+              setTimeout(function() { URL.revokeObjectURL(url) }, 1000);
+              uni.showToast({ title: '已保存', icon: 'success' })
+            }, 'image/png')
+            // #endif
+            // #ifndef H5
+            uni.previewImage({ urls: [tempPath], success: function() { uni.showToast({ title: '长按图片可保存', icon: 'none' }) }, fail: function() { uni.showToast({ title: '预览失败', icon: 'none' }) } })
+            // #endif
+          }
           function doDraw() {
             if (drawn) return; drawn = true
-            ctx.fillStyle = '#FFF8F4'; rr(0, 0, W, H, 24); ctx.fill()
-            ctx.fillStyle = '#FFFFFF'; rr(24, 24, W - 48, H - 48, 24); ctx.fill(); ctx.strokeStyle = '#EFEBE6'; ctx.lineWidth = 1; ctx.stroke()
-            var grad = ctx.createLinearGradient(24, 24, W - 24, 88); grad.addColorStop(0, '#FF6B35'); grad.addColorStop(1, '#F72585')
-            ctx.beginPath(); ctx.moveTo(48, 24); ctx.lineTo(W - 48, 24); ctx.quadraticCurveTo(W - 24, 24, W - 24, 48); ctx.lineTo(W - 24, 88); ctx.lineTo(24, 88); ctx.lineTo(24, 48); ctx.quadraticCurveTo(24, 24, 48, 24); ctx.closePath()
-            ctx.fillStyle = grad; ctx.fill(); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '22px sans-serif'; ctx.fillStyle = '#FFFFFF'; ctx.fillText('🎋 旅行搭子匹配器', CX, 56)
-            var curY = 140
-            if (zuheImg) { var zs = 400; ctx.drawImage(zuheImg, CX - zs / 2, curY, zs, zs * zuheImg.height / zuheImg.width); curY = curY + zs * zuheImg.height / zuheImg.width + 20 }
-            ctx.font = '24px sans-serif'; ctx.fillStyle = '#1A1A2E'; ctx.fillText(rel.name, CX, curY); curY = curY + 50
-            ctx.strokeStyle = '#EFEBE6'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(80, curY); ctx.lineTo(W - 80, curY); ctx.stroke(); curY = curY + 40
-            ctx.font = '14px sans-serif'; ctx.fillStyle = '#8B8B9E'; ctx.fillText('邀请码', CX, curY); curY = curY + 32
-            ctx.font = '36px sans-serif'; ctx.fillStyle = '#FF6B35'; ctx.textAlign = 'left'; var chars = String(inviteCode).split(''); var spacing = 28; var totalW = chars.length * spacing; var sx = CX - totalW / 2
-            for (var i = 0; i < chars.length; i++) { ctx.fillText(chars[i], sx + i * spacing, curY) }
-            ctx.textAlign = 'center'; curY = curY + 50
-            ctx.strokeStyle = '#EFEBE6'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(80, curY); ctx.lineTo(W - 80, curY); ctx.stroke(); curY = curY + 50
-            var qrSize = 160
-            if (qrImg) { ctx.drawImage(qrImg, CX - qrSize / 2, curY, qrSize, qrSize) } else { ctx.strokeStyle = '#D1D5DB'; ctx.lineWidth = 2; rr(CX - qrSize / 2, curY, qrSize, qrSize, 12); ctx.stroke(); ctx.font = '14px sans-serif'; ctx.fillStyle = '#9CA3AF'; ctx.fillText('小程序码', CX, curY + qrSize / 2 - 4); ctx.fillText('待申请', CX, curY + qrSize / 2 + 16) }
-            curY = curY + qrSize + 24; ctx.font = '12px sans-serif'; ctx.fillStyle = '#8B8B9E'; ctx.fillText('长按扫码 测测你的搭子类型', CX, curY)
-            setTimeout(function() {
-              try { uni.canvasToTempFilePath({ canvas: canvas, x: 0, y: 0, width: 600, height: 950, destWidth: 600, destHeight: 950, fileType: 'jpg', quality: 1, success: function(res) { uni.previewImage({ urls: [res.tempFilePath], success: function() { uni.hideLoading(); uni.showToast({ title: '长按图片可保存', icon: 'none' }) }, fail: function() { uni.hideLoading(); uni.showToast({ title: '预览失败', icon: 'none' }) } }) }, fail: function(er1) { uni.hideLoading(); uni.showToast({ title: '导出失败:' + (er1.errMsg||''), icon: 'none' }) } }) } catch(e) { uni.hideLoading(); uni.showToast({ title: '异常:' + e.message, icon: 'none' }) }
-            }, 300)
+            try {
+              ctx.fillStyle = '#FFF8F4'; rr(0, 0, W, H, 24); ctx.fill()
+              ctx.fillStyle = '#FFFFFF'; rr(24, 24, W - 48, H - 48, 24); ctx.fill(); ctx.strokeStyle = '#EFEBE6'; ctx.lineWidth = 1; ctx.stroke()
+              var curY = 40
+              if (zuheImg) { var zs = 460; var zh = zs * zuheImg.height / zuheImg.width; ctx.drawImage(zuheImg, CX - zs/2, curY, zs, zh); curY = curY + zh + 24 }
+              
+              ctx.strokeStyle = '#EFEBE6'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(80, curY); ctx.lineTo(W - 80, curY); ctx.stroke(); curY = curY + 40
+              ctx.font = '14px sans-serif'; ctx.fillStyle = '#8B8B9E'; ctx.fillText('邀请码', CX, curY); curY = curY + 32
+              ctx.font = '36px sans-serif'; ctx.fillStyle = '#FF6B35'; ctx.textAlign = 'left'; var chars = String(inviteCode).split(''); var spacing = 28; var totalW = chars.length * spacing; var sx = CX - totalW / 2
+              for (var i = 0; i < chars.length; i++) { ctx.fillText(chars[i], sx + i * spacing, curY) }; ctx.textAlign = 'center'; curY = curY + 50
+              ctx.strokeStyle = '#EFEBE6'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(80, curY); ctx.lineTo(W - 80, curY); ctx.stroke(); curY = curY + 44
+              var qrSize = 120; ctx.fillStyle = '#F8F6F4'; ctx.fillRect(CX - qrSize/2, curY, qrSize, qrSize); ctx.strokeStyle = '#D1D5DB'; ctx.lineWidth = 2; ctx.setLineDash([8,8]); rr(CX - qrSize/2, curY, qrSize, qrSize, 12); ctx.stroke(); ctx.setLineDash([])
+              ctx.font = '14px sans-serif'; ctx.fillStyle = '#9CA3AF'; ctx.fillText('小程序码', CX, curY + qrSize/2 - 4); ctx.fillText('待申请', CX, curY + qrSize/2 + 16)
+              if (qrImg) { ctx.clearRect(CX - qrSize/2, curY, qrSize, qrSize); ctx.drawImage(qrImg, CX - qrSize/2, curY, qrSize, qrSize) }
+              curY = curY + qrSize + 24; ctx.font = '12px sans-serif'; ctx.fillStyle = '#8B8B9E'; ctx.fillText('长按扫码 测测你的搭子类型', CX, curY)
+              setTimeout(function() {
+                uni.canvasToTempFilePath({ canvas: canvas, x: 0, y: 0, width: 600, height: 950, destWidth: 600, destHeight: 950, fileType: 'png', quality: 1, success: function(res) { doSave(res.tempFilePath || res) }, fail: function(er1) { uni.hideLoading(); uni.showToast({ title: '导出失败:' + (er1.errMsg||''), icon: 'none' }) } })
+              }, 300)
+            } catch(e) { uni.hideLoading(); uni.showToast({ title: '绘制异常:' + e.message, icon: 'none' }) }
           }
-          var timer = setTimeout(function() { doDraw() }, 3000)
-          if (zuheDataUrl) { var zi = canvas.createImage(); zi.onload = function() { zuheImg = zi; clearTimeout(timer); doDraw() }; zi.onerror = function() { clearTimeout(timer); doDraw() }; zi.src = zuheDataUrl } else { doDraw(); clearTimeout(timer) }
-          if (qrDataUrl) { var qi = canvas.createImage(); qi.onload = function() { qrImg = qi; clearTimeout(timer); doDraw() }; qi.onerror = function() { clearTimeout(timer); doDraw() }; qi.src = qrDataUrl }
+          var total = 2, loadedCnt = 0;
+          var fallbackTimer = setTimeout(function() { console.log('saveResultCard timeout fallback'); doDraw() }, 5000); function doneOne() { loadedCnt++; if (loadedCnt >= total) { clearTimeout(fallbackTimer); doDraw() } }
+          loadCanvasImg(zuhePath, function(img) { zuheImg = img; doneOne() })
+          loadCanvasImg('/static/images/qr-code.jpg', function(img) { qrImg = img; doneOne() })
         }).exec()
       },
-      goTeam() { uni.switchTab({ url: "/pages/team/index" }) },
+goTeam() { uni.switchTab({ url: "/pages/team/index" }) },
       goHome() { uni.switchTab({ url: "/pages/index/index" }) }
     }
   }
@@ -155,3 +180,20 @@
   .action-btn.secondary { background: #FFFFFF; color: #FF6B35; border: 2rpx solid #FF6B35; }
   .action-btn.text-btn { background: transparent; color: #6B7280; border: 1rpx solid #EFEBE6; }
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -118,7 +118,7 @@
         var pName = store.myResult.personality || '';
         var inviteCode = store.inviteCode || '';
         var pDataUrl = that.imgToDataUrl(that.pInfo ? that.pInfo.imageCropped : '');
-        var qrDataUrl = that.imgToDataUrl('/static/images/qr-code.jpg');
+        var qrDataUrl = that.imgToDataUrl('https://cdn.jsdelivr.net/gh/q1619229489-cpu/travel-buddy-images@main/qr-code.jpg');
         var query = uni.createSelectorQuery().in(that);
         query.select('#homeCardCanvas').node(function(res) {
           if (!res || !res.node) { uni.hideLoading(); uni.showToast({ title: '画布初始化失败', icon: 'none' }); return }

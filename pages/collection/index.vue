@@ -8,7 +8,7 @@
         <view class="relationship-grid">
           <view class="relation-cell" v-for="r in relationships" :key="r.id" :class="{ unlocked: isRelationUnlocked(r) }" @tap="previewRelation(r)">
             <view v-if="isRelationUnlocked(r)" class="relation-image-wrap">
-              <image class="relation-image" :src="'/static/images/裁剪后/' + r.name + '.png'" mode="aspectFill"></image>
+              <image class="relation-image" :src="'https://cdn.jsdelivr.net/gh/q1619229489-cpu/travel-buddy-images@main/裁剪后/' + r.name + '.png'" mode="aspectFill"></image>
               <view class="relation-overlay"><text class="relation-overlay-name">{{ r.name }}</text></view>
             </view>
             <view v-else class="locked-content">
