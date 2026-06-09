@@ -195,18 +195,18 @@
             setMatch({ partnerName: "好友", partnerPersonality: partnerPersonality, partnerInviteCode: code, relationship: rel ? rel.name : '', destination: destName })
             markMatched(code)
             uni.navigateTo({ url: "/pages/result/index?inviteCode=" + code + "&matched=true" })
+
           } else {
-            _this._localFallbackMatch(code)
+            var cloudMsg = (res.result && res.result.message) || "云端匹配失败"
+            uni.showToast({ title: cloudMsg, icon: "none" })
           }
         }).catch(function(err) {
           uni.hideLoading()
-          console.log('cloud match error:', err)
-          _this._localFallbackMatch(code)
+          console.log("cloud match error:", err)
+          uni.showToast({ title: "网络错误，请稍后重试", icon: "none" })
         })
-      },
-      _localFallbackMatch(code) {
         var partnerInfo = findByInviteCode(code)
-        if (!partnerInfo) { uni.showToast({ title: "邀请码不存在或云端匹配失败", icon: "none" }); return }
+        if (!partnerInfo) { uni.showToast({ title: "邀请码不存在", icon: "none" }); return }
         var rel = findRelationship(store.myResult.personality, partnerInfo.personality)
         if (rel) {
           var dests = recommendDestination(rel, store.myResult.personality, partnerInfo.personality, [], store.myResult.traits, partnerInfo.traits)
@@ -256,5 +256,7 @@
   .match-input { flex: 1; height: 80rpx; border: 2rpx solid #EFEBE6; border-radius: 14rpx; padding: 0 20rpx; font-size: 28rpx; letter-spacing: 6rpx; text-transform: uppercase; background: #F8F6F4; }
   .match-btn { padding: 20rpx 36rpx; background: linear-gradient(135deg, #FF6B35, #F72585); color: #FFFFFF; border-radius: 14rpx; font-size: 28rpx; font-weight: 600; }
 </style>
+
+
 
 

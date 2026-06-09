@@ -18,8 +18,8 @@ exports.main = async (event, context) => {
       traits: userResult.traits,
       createdAt: Date.now()
     },
-    joiner: null,
-    result: null,
+    joiner: {},
+    result: {},
     status: 'waiting', // waiting | matched
     createdAt: Date.now(),
     updatedAt: Date.now()
@@ -34,3 +34,4 @@ exports.main = async (event, context) => {
     }
   }
 }
+
