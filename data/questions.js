@@ -95,7 +95,6 @@
     { text: '还是先回旅店吧', personality: '卡皮巴适', traits: { action: -1, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
     { text: '买不到好吃的了', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 2, budget: 0 } },
     { text: '错过好多拍照机会，难受', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 0, food: 0, budget: 0 } }
-  ]}
   ]},
   { id: 15, text: '你对"特产"的态度是：', options: [
     { text: '买当地特色食品，回家慢慢吃', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 2, budget: 0 } },
@@ -154,21 +153,18 @@ export const questionsPart2 = [
     { text: '只会耽误了我拍照打卡', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 1, spontaneity: 0, food: 0, budget: 0 } },
     { text: '算了，我只想早点逛完', personality: '卡皮巴适', traits: { action: -1, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
     { text: '不排，因为我查过攻略避雷了', personality: '预制人', traits: { action: 0, planning: 1, photo: 0, spontaneity: 0, food: 0, budget: 0 } }
-  ]}
   ]},  { id: 23, text: '你对旅行住宿的选择更看重什么？', options: [
     { text: '位置好，方便去各个景点', personality: '特种兵', traits: { action: 1, planning: 1, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
     { text: '床舒服，能好好休息就行', personality: '卡皮巴适', traits: { action: -1, planning: 0, photo: 0, spontaneity: 1, food: 0, budget: 0 } },
     { text: '附近美食多，下楼就能吃', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 2, budget: 0 } },
     { text: '装修好看，拍照出片', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 0, food: 0, budget: 0 } },
     { text: '性价比高，提前比价选好', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: 0, food: 0, budget: 1 } }
-  ]}
   ]},  { id: 24, text: '旅行中计划有变，你有半天自由时间，你更愿意怎么度过？', options: [
     { text: '多打卡几个地方', personality: '特种兵', traits: { action: 2, planning: 0, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
     { text: '找个地方坐下来，放空自己', personality: '卡皮巴适', traits: { action: 0, planning: 0, photo: 0, spontaneity: 1, food: 0, budget: 0 } },
     { text: '去找当地有名的美食', personality: '吗当喽', traits: { action: 0, planning: 0, photo: 0, spontaneity: 0, food: 2, budget: 0 } },
     { text: '去一个出片率高的小众景点', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 0, food: 0, budget: 0 } },
     { text: '按照自己之前计划进行', personality: '预制人', traits: { action: 0, planning: 1, photo: 0, spontaneity: 0, food: 0, budget: 0 } }
-  ]}
   ]},
   { id: 25, text: '你心中完美的旅行日应该是：', options: [
     { text: '五点起床看日出，上午逛三个景点', personality: '特种兵', traits: { action: 3, planning: 1, photo: 0, spontaneity: -1, food: -1, budget: 0 } },
@@ -210,7 +206,6 @@ export const questionsPart2 = [
     { text: '打卡圣地好出片', personality: '摄影大师', traits: { action: 0, planning: 0, photo: 2, spontaneity: 0, food: 0, budget: 0 } },
     { text: '攻略是否好做', personality: '预制人', traits: { action: 0, planning: 2, photo: 0, spontaneity: 0, food: 0, budget: 0 } },
     { text: '没想好，看心情看缘分', personality: '哈基迷', traits: { action: 0, planning: 0, photo: 0, spontaneity: 2, food: 0, budget: 0 } }
-  ]}
   ]}
 ]
 
