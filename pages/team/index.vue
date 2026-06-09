@@ -15,8 +15,11 @@
         <view class="team-list">
           <view class="team-item" v-for="(t, idx) in createdTeams" :key="idx">
             <view class="team-top">
-              <text class="team-rel">{{ t.relationshipName }}</text>
-              <text class="team-dest" v-if="t.destinationName">{{ t.destinationName }}</text>
+              <view class="team-title-area">
+                <text class="team-name" v-if="t.name">{{ t.name }}</text>
+                <text class="team-rel">{{ t.relationshipName }}</text>
+                <text class="team-dest" v-if="t.destinationName">· {{ t.destinationName }}</text>
+              </view>
               <view class="team-code-actions">
                 <text class="team-code-text">{{ t.code }}</text>
                 <text class="team-copy-btn" @tap.stop="showCode=t.code">复制</text>
@@ -26,8 +29,8 @@
               <view class="tm-label"><text class="tm-label-text">已加入：</text><text class="tm-count">{{ countFit(t.members) }}人合适</text></view>
               <view class="tm-avatars">
                 <view class="tm-member" v-for="(m, mi) in t.members" :key="mi">
-                  <image class="tm-avatar" :src="m.avatarUrl" mode="aspectFill"></image>
-                  <text class="tm-name">{{ m.nickName }}</text>
+                  <image class="tm-avatar" :src="getMemberAvatar(m)" mode="aspectFill"></image>
+                  <text class="tm-name">{{ m.nickName || m.personality }}</text>
                   <text class="tm-fit-tag" :class="'tag-' + m.fit">{{ m.fit==="yes" ? "适合" : m.fit==="ok" ? "还行" : "不适合" }}</text>
                 </view>
               </view>
@@ -40,7 +43,7 @@
         <text class="section-title">创建组队</text>
         <text class="section-subtitle">从匹配记录中选择一个生成组队码</text>
         <view class="match-list">
-          <view class="match-item" v-for="(item, idx) in store.matchHistory" :key="idx" @tap="createTeamForMatch(idx)">
+          <view class="match-item" v-for="(item, idx) in store.matchHistory" :key="idx" @tap="showNameModalFor(idx)">
             <view class="match-left">
               <image class="match-avatar" :src="getPImage(item.partnerPersonality)" mode="aspectFill"></image>
               <view class="match-info">
@@ -53,6 +56,19 @@
         </view>
       </view>
     </view>
+    <!-- 队伍名称输入弹窗 -->
+    <view class="overlay" v-if="showNameModal" @tap="showNameModal=false">
+      <view class="modal" @tap.stop>
+        <text class="modal-title">设置队伍名称</text>
+        <text class="modal-desc">给你的队伍起个名字吧</text>
+        <input class="modal-input" v-model="teamNameInput" placeholder="输入队伍名称" maxlength="20" />
+        <view class="modal-actions">
+          <view class="modal-btn" @tap="createTeamWithName">确认创建</view>
+          <view class="modal-btn secondary" @tap="showNameModal=false">取消</view>
+        </view>
+      </view>
+    </view>
+    <!-- 组队码展示弹窗 -->
     <view class="overlay" v-if="showCode" @tap="showCode=''">
       <view class="modal" @tap.stop>
         <text class="modal-title">组队码</text>
@@ -71,15 +87,24 @@
   import { personalities } from "../../data/personalities.js"
   import { getOrCreateTeam, getTeam, getAllTeamCodes, getJoinedTeamCodes } from "../../utils/team-store.js"
   export default {
-    data() { return { store, joinCode: "", showCode: "", teamCodes: {}, createdTeams: [] } },
+    data() {
+      return {
+        store, joinCode: "", showCode: "", teamCodes: {}, createdTeams: [],
+        showNameModal: false, teamNameInput: "", creatingMatchIdx: -1
+      }
+    },
     computed: { hasMatches() { return store.matchHistory && store.matchHistory.length > 0 } },
     onShow() { this.loadTeams() },
     methods: {
       getPImage(id) { if (!id) return ""; var p = personalities.find(function(x) { return x.id === id }); return p ? p.imageCropped : "" },
+      getMemberAvatar(m) {
+        if (m.avatarUrl) return m.avatarUrl
+        var p = personalities.find(function(x) { return x.id === m.personality })
+        return p ? p.imageCropped : ""
+      },
       countFit(members) { var n = 0; members.forEach(function(m) { if (m.fit === "yes" || m.fit === "ok") n++ }); return n },
       async loadTeams() {
         var idxMap = getAllTeamCodes(); var codes = {}; var seen = {}; var list = []
-        // 加载我创建的队伍
         for (var i = 0; i < idxMap.length; i++) {
           var item = idxMap[i]
           codes[item.matchIndex] = item.code
@@ -89,31 +114,53 @@
             if (team) { team.code = item.code; list.push(team) }
           }
         }
-        // 加载我加入的队伍
         var joinedCodes = getJoinedTeamCodes()
         for (var j = 0; j < joinedCodes.length; j++) {
           var jc = joinedCodes[j]
           if (!seen[jc]) {
             seen[jc] = true
-            var joinedTeam = await getTeam(jc)
-            if (joinedTeam) { joinedTeam.code = jc; list.push(joinedTeam) }
+            var jt = await getTeam(jc)
+            if (jt) { jt.code = jc; list.push(jt) }
           }
         }
         this.teamCodes = codes; this.createdTeams = list
       },
-      async createTeamForMatch(idx) {
-        var item = store.matchHistory[idx]; if (!item) return
-        if (this.teamCodes[idx]) { this.showCode = this.teamCodes[idx]; return }
-        var code = await getOrCreateTeam(idx, item)
-        if (!code) { uni.showToast({ title: "创建失败，请重试", icon: "none" }); return }
-        this.teamCodes[idx] = code; this.showCode = code
-        this.loadTeams()
+      showNameModalFor(idx) {
+        if (this.teamCodes[idx]) { uni.showToast({ title: "已生成组队码", icon: "none" }); return }
+        this.creatingMatchIdx = idx
+        this.teamNameInput = ""
+        this.showNameModal = true
+      },
+      async createTeamWithName() {
+        var idx = this.creatingMatchIdx
+        if (idx < 0) return
+        var item = store.matchHistory[idx]
+        var teamName = this.teamNameInput.trim() || (item.relationship || "队伍") + "的队伍"
+        var code = await getOrCreateTeam(idx, {
+          destination: item.destinationName,
+          destinationId: item.destinationId,
+          relationship: item.relationship,
+          myPersonality: store.myResult.personality,
+          myTraits: store.myResult.traits,
+          partnerPersonality: item.partnerPersonality,
+          partnerTraits: item.partnerTraits || {}
+        }, teamName)
+        if (code) {
+          this.teamCodes[idx] = code
+          this.showNameModal = false
+          this.showCode = code
+          this.loadTeams()
+        }
       },
       doJoin() {
         var code = this.joinCode.replace(/\s/g, "")
-        if (code.length !== 8 || !/^\d+$/.test(code)) { uni.showToast({ title: "请输入8位数字组队码", icon: "none" }); return }; uni.navigateTo({ url: "/pages/team-join/index?code=" + code })
+        if (code.length !== 8 || !/^\d+$/.test(code)) { uni.showToast({ title: "请输入8位数字组队码", icon: "none" }); return }
+        uni.navigateTo({ url: "/pages/team-join/index?code=" + code })
       },
-      copyCode() { if (!this.showCode) return; uni.setClipboardData({ data: this.showCode, success: function() { uni.showToast({ title: "已复制", icon: "none" }) } }) }
+      copyCode() {
+        if (!this.showCode) return
+        uni.setClipboardData({ data: this.showCode, success: function() { uni.showToast({ title: "已复制", icon: "none" }) } })
+      }
     }
   }
 </script>
@@ -132,10 +179,12 @@
   .history-section { margin-bottom: 24rpx; }
   .team-list { display: flex; flex-direction: column; gap: 16rpx; }
   .team-item { padding: 20rpx; background: #FFFFFF; border-radius: 16rpx; border: 1rpx solid #EFEBE6; }
-  .team-top { display: flex; align-items: center; gap: 12rpx; margin-bottom: 12rpx; flex-wrap: wrap; }
-  .team-rel { font-size: 26rpx; font-weight: 600; }
+  .team-top { display: flex; align-items: flex-start; gap: 12rpx; margin-bottom: 12rpx; }
+  .team-title-area { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8rpx; }
+  .team-name { font-size: 28rpx; font-weight: 700; color: #1A1A2E; display: block; width: 100%; }
+  .team-rel { font-size: 24rpx; font-weight: 500; color: #6B7280; }
   .team-dest { font-size: 22rpx; color: #8B8B9E; }
-  .team-code-actions { margin-left: auto; display: flex; align-items: center; gap: 8rpx; }
+  .team-code-actions { display: flex; align-items: center; gap: 8rpx; flex-shrink: 0; padding-top: 4rpx; }
   .team-code-text { font-size: 24rpx; font-weight: 700; letter-spacing: 2rpx; color: #FF6B35; font-family: monospace; }
   .team-copy-btn { font-size: 20rpx; color: #4361EE; padding: 4rpx 12rpx; border: 1rpx solid #4361EE; border-radius: 8rpx; }
   .tm-label { display: flex; align-items: center; gap: 8rpx; margin-bottom: 10rpx; }
@@ -162,6 +211,7 @@
   .modal-title { font-size: 36rpx; font-weight: 700; color: #1A1A2E; display: block; margin-bottom: 12rpx; }
   .modal-desc { font-size: 26rpx; color: #6B7280; line-height: 1.6; display: block; margin-bottom: 28rpx; }
   .modal-code { font-size: 56rpx; font-weight: 700; letter-spacing: 12rpx; color: #FF6B35; padding: 24rpx; background: #FFF8F4; border-radius: 16rpx; border: 2rpx dashed #FF6B35; font-family: monospace; margin-bottom: 28rpx; }
+  .modal-input { height: 80rpx; border: 2rpx solid #EFEBE6; border-radius: 14rpx; padding: 0 20rpx; font-size: 30rpx; text-align: center; background: #F8F6F4; width: 80%; margin: 0 auto 28rpx; }
   .modal-actions { display: flex; flex-direction: column; gap: 16rpx; }
   .modal-btn { padding: 24rpx 0; border-radius: 14rpx; font-size: 30rpx; font-weight: 600; text-align: center; background: linear-gradient(135deg, #FF6B35, #F72585); color: #FFFFFF; }
   .modal-btn.secondary { background: #FFFFFF; color: #6B7280; border: 1rpx solid #EFEBE6; }

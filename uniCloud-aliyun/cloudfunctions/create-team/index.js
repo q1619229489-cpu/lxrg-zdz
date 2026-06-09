@@ -1,7 +1,7 @@
 ﻿const db = uniCloud.database()
 
 exports.main = async (event, context) => {
-  const { code, destinationName, destinationId, pairA, pairB, relationshipName } = event
+  const { code, name, destinationName, destinationId, pairA, pairB, relationshipName } = event
 
   if (!code || !destinationName || !pairA || !pairB || !relationshipName) {
     return { code: -1, message: '参数不完整' }
@@ -16,6 +16,7 @@ exports.main = async (event, context) => {
 
   const res = await collection.add({
     code,
+    name: name || '',
     destinationName,
     destinationId: destinationId || 1,
     pairA,

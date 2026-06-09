@@ -19,7 +19,7 @@ function generateCode() {
   return code
 }
 
-export async function getOrCreateTeam(matchIndex, matchData) {
+export async function getOrCreateTeam(matchIndex, matchData, teamName) {
   var idxMap = getTeamIndex()
   if (idxMap[matchIndex]) return idxMap[matchIndex]
   var code = generateCode()
@@ -28,6 +28,7 @@ export async function getOrCreateTeam(matchIndex, matchData) {
       name: "create-team",
       data: {
         code: code,
+        name: teamName || '',
         destinationName: matchData.destination || "",
         destinationId: matchData.destinationId || 1,
         pairA: { personality: matchData.myPersonality || "", traits: matchData.myTraits || {} },
@@ -93,3 +94,5 @@ export function addJoinedTeam(code) {
 }
 
 export default { getOrCreateTeam: getOrCreateTeam, getTeam: getTeam, joinTeam: joinTeam, getAllTeamCodes: getAllTeamCodes, getJoinedTeamCodes: getJoinedTeamCodes, addJoinedTeam: addJoinedTeam }
+
+

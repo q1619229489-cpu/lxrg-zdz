@@ -8,7 +8,17 @@
         <text class="result-pdesc">{{ personalityDesc }}</text>
         <view class="result-fit-badge" :class="'fit-' + fitResult"><text class="fit-text">{{ fitLabel }}</text></view>
         <text class="fit-reason">{{ fitReason }}</text>
-        <view class="result-actions"><view class="action-btn primary" @tap="goTeam">返回组队</view></view>
+        <view class="name-input-section" v-if="canJoin && !hasJoined">
+          <text class="name-input-label">输入名字，让队友认识你：</text>
+          <input class="name-input" v-model="userName" placeholder="你的昵称" maxlength="12" />
+          <view class="join-submit-btn" @tap="doJoin">加入队伍</view>
+        </view>
+        <view class="joined-hint" v-if="hasJoined">
+          <text class="joined-text">已加入队伍！</text>
+        </view>
+        <view class="result-actions">
+          <view class="action-btn primary" @tap="goTeam">返回组队</view>
+        </view>
       </view>
     </view>
   </view>
@@ -19,10 +29,18 @@
   import { getTeam, joinTeam, addJoinedTeam } from "../../utils/team-store.js"
   import store from "../../store/index.js"
   export default {
-    data() { return { personalityName: "", personalityDesc: "", personalityImg: "", fitResult: "no", fitLabel: "", fitReason: "" } },
+    data() {
+      return {
+        personalityName: "", personalityDesc: "", personalityImg: "",
+        fitResult: "no", fitLabel: "", fitReason: "",
+        canJoin: false, userName: "", hasJoined: false,
+        teamCode: ""
+      }
+    },
     async onLoad(options) {
       var code = options.code || ""
       if (!code) { uni.showToast({ title: "组队码无效", icon: "none" }); return }
+      this.teamCode = code
       var teamData = await getTeam(code)
       if (!teamData) { uni.showToast({ title: "组队码不存在", icon: "none" }); return }
       if (!store.hasTakenQuiz || !store.myResult) { uni.showToast({ title: "请先完成答题", icon: "none" }); return }
@@ -31,12 +49,29 @@
       this.personalityDesc = p ? p.description : ""
       this.personalityImg = p ? p.imageCropped : ""
       var fitInfo = checkDestinationFit(store.myResult, teamData.destinationName || teamData.destinationId, null)
-      this.fitResult = fitInfo.fit; this.fitReason = fitInfo.reason
+      this.fitResult = fitInfo.fit
+      this.fitReason = fitInfo.reason
       this.fitLabel = fitInfo.fit === "yes" ? "适合组队" : fitInfo.fit === "ok" ? "还行" : "不适合"
-      await joinTeam(code, { nickName: "", avatarUrl: "", personality: store.myResult.personality, fit: fitInfo.fit, fitReason: fitInfo.reason })
-      addJoinedTeam(code)
+      this.canJoin = fitInfo.fit === "yes" || fitInfo.fit === "ok"
     },
-    methods: { goTeam() { uni.switchTab({ url: "/pages/team/index" }) } }
+    methods: {
+      async doJoin() {
+        if (!this.userName.trim()) { uni.showToast({ title: "请输入你的昵称", icon: "none" }); return }
+        var p = personalities.find(function(x) { return x.id === store.myResult.personality })
+        var avatarUrl = p ? p.imageCropped : ""
+        await joinTeam(this.teamCode, {
+          nickName: this.userName.trim(),
+          avatarUrl: avatarUrl,
+          personality: store.myResult.personality,
+          fit: this.fitResult,
+          fitReason: this.fitReason
+        })
+        addJoinedTeam(this.teamCode)
+        this.hasJoined = true
+        uni.showToast({ title: "加入成功！", icon: "none" })
+      },
+      goTeam() { uni.switchTab({ url: "/pages/team/index" }) }
+    }
   }
 </script>
 <style lang="scss" scoped>
@@ -49,7 +84,13 @@
   .result-fit-badge { width: 160rpx; height: 160rpx; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20rpx; }
   .fit-yes { background: #06D6A0; } .fit-ok { background: #FFB800; } .fit-no { background: #F72585; }
   .fit-text { font-size: 32rpx; font-weight: 700; color: #FFFFFF; }
-  .fit-reason { font-size: 26rpx; color: #6B7280; line-height: 1.6; display: block; margin-bottom: 32rpx; }
+  .fit-reason { font-size: 26rpx; color: #6B7280; line-height: 1.6; display: block; margin-bottom: 20rpx; }
+  .name-input-section { margin-bottom: 20rpx; }
+  .name-input-label { font-size: 24rpx; color: #6B7280; display: block; margin-bottom: 12rpx; }
+  .name-input { height: 80rpx; border: 2rpx solid #EFEBE6; border-radius: 14rpx; padding: 0 20rpx; font-size: 30rpx; text-align: center; background: #F8F6F4; width: 60%; margin: 0 auto 16rpx; }
+  .join-submit-btn { padding: 22rpx 0; border-radius: 14rpx; font-size: 28rpx; font-weight: 600; text-align: center; background: linear-gradient(135deg, #06D6A0, #00B894); color: #FFFFFF; width: 60%; margin: 0 auto; }
+  .joined-hint { margin-bottom: 20rpx; }
+  .joined-text { font-size: 28rpx; color: #06D6A0; font-weight: 600; }
   .result-actions { display: flex; flex-direction: column; gap: 16rpx; }
   .action-btn { padding: 26rpx 0; border-radius: 16rpx; font-size: 28rpx; font-weight: 600; text-align: center; }
   .action-btn.primary { background: linear-gradient(135deg, #FF6B35, #F72585); color: #FFFFFF; }

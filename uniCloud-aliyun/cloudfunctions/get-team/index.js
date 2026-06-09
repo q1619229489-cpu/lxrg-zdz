@@ -50,6 +50,7 @@ exports.main = async (event, context) => {
     data: {
       id: team._id,
       code: team.code,
+      name: team.name || '',
       destinationName: team.destinationName,
       destinationId: team.destinationId,
       pairA: team.pairA,

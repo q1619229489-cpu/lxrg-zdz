@@ -16,6 +16,10 @@
       "bsonType": "int",
       "description": "目的地ID"
     },
+    "name": {
+      "bsonType": "string",
+      "description": "队伍名称"
+    },
     "pairA": {
       "bsonType": "object",
       "description": "创建者的配对信息",
