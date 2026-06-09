@@ -26,7 +26,7 @@
 <script>
   import { personalities } from "../../data/personalities.js"
   import { checkDestinationFit } from "../../utils/destination-fit.js"
-  import { getTeam, joinTeam, addJoinedTeam } from "../../utils/team-store.js"
+  import { getTeam, joinTeam, addJoinedTeam, getJoinedTeamCodes } from "../../utils/team-store.js"
   import store from "../../store/index.js"
   export default {
     data() {
@@ -53,9 +53,15 @@
       this.fitReason = fitInfo.reason
       this.fitLabel = fitInfo.fit === "yes" ? "适合组队" : fitInfo.fit === "ok" ? "还行" : "不适合"
       this.canJoin = fitInfo.fit === "yes" || fitInfo.fit === "ok"
+      // 检查是否已加入过该队伍
+      var joinedCodes = getJoinedTeamCodes()
+      if (joinedCodes.indexOf(code) !== -1) { this.hasJoined = true; this.canJoin = false }
     },
     methods: {
       async doJoin() {
+        if (this.hasJoined) { uni.showToast({ title: "你已经在队伍中了", icon: "none" }); return }
+        var joinedCodes = getJoinedTeamCodes()
+        if (joinedCodes.indexOf(this.teamCode) !== -1) { this.hasJoined = true; this.canJoin = false; uni.showToast({ title: "你已经在队伍中了", icon: "none" }); return }
         if (!this.userName.trim()) { uni.showToast({ title: "请输入你的昵称", icon: "none" }); return }
         var p = personalities.find(function(x) { return x.id === store.myResult.personality })
         var avatarUrl = p ? p.imageCropped : ""
@@ -64,7 +70,8 @@
           avatarUrl: avatarUrl,
           personality: store.myResult.personality,
           fit: this.fitResult,
-          fitReason: this.fitReason
+          fitReason: this.fitReason,
+          inviteCode: store.inviteCode || ""
         })
         addJoinedTeam(this.teamCode)
         this.hasJoined = true

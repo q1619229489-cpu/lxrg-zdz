@@ -17,12 +17,21 @@ exports.main = async (event, context) => {
   const team = res.data[0]
   const members = team.members || []
 
+  // 服务端去重：同一 inviteCode 不能重复加入
+  if (memberData.inviteCode) {
+    var exists = members.some(function(m) { return m.inviteCode === memberData.inviteCode })
+    if (exists) {
+      return { code: -4, message: '你已经加入过该队伍' }
+    }
+  }
+
   const member = {
     nickName: memberData.nickName || '',
     avatarUrl: memberData.avatarUrl || '',
     personality: memberData.personality || '',
     fit: memberData.fit || 'no',
-    fitReason: memberData.fitReason || ''
+    fitReason: memberData.fitReason || '',
+    inviteCode: memberData.inviteCode || ''
   }
 
   members.push(member)

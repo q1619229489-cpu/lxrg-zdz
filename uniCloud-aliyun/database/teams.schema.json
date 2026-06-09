@@ -50,7 +50,8 @@
           "avatarUrl": { "bsonType": "string" },
           "personality": { "bsonType": "string" },
           "fit": { "bsonType": "string", "enum": ["yes", "ok", "no"] },
-          "fitReason": { "bsonType": "string" }
+          "fitReason": { "bsonType": "string" },
+          "inviteCode": { "bsonType": "string" }
         }
       }
     },
@@ -66,3 +67,4 @@
     }
   }
 }
+
