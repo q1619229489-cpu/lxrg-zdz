@@ -137,14 +137,13 @@
         var item = store.matchHistory[idx]
         var teamName = this.teamNameInput.trim() || (item.relationship || "队伍") + "的队伍"
         var code = await getOrCreateTeam(idx, {
-          destination: item.destinationName,
-          destinationId: item.destinationId,
+          destination: item.destination || '',
           relationship: item.relationship,
           myPersonality: store.myResult.personality,
           myTraits: store.myResult.traits,
-          partnerPersonality: item.partnerPersonality,
-          partnerTraits: item.partnerTraits || {}
+          partnerPersonality: item.partnerPersonality
         }, teamName)
+        if (!code) { uni.showToast({ title: '创建失败，请重试', icon: 'none' }) }
         if (code) {
           this.teamCodes[idx] = code
           this.showNameModal = false
@@ -216,3 +215,4 @@
   .modal-btn { padding: 24rpx 0; border-radius: 14rpx; font-size: 30rpx; font-weight: 600; text-align: center; background: linear-gradient(135deg, #FF6B35, #F72585); color: #FFFFFF; }
   .modal-btn.secondary { background: #FFFFFF; color: #6B7280; border: 1rpx solid #EFEBE6; }
 </style>
+

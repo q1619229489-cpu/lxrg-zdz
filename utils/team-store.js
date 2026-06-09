@@ -28,7 +28,7 @@ export async function getOrCreateTeam(matchIndex, matchData, teamName) {
       name: "create-team",
       data: {
         code: code,
-        name: teamName || '',
+        name: teamName || "",
         destinationName: matchData.destination || "",
         destinationId: matchData.destinationId || 1,
         pairA: { personality: matchData.myPersonality || "", traits: matchData.myTraits || {} },
@@ -36,8 +36,13 @@ export async function getOrCreateTeam(matchIndex, matchData, teamName) {
         relationshipName: matchData.relationship || ""
       }
     })
+    // 组队码冲突（-3）才重试；其他错误直接返回 null
+    if (res.result.code === -3) {
+      return getOrCreateTeam(matchIndex, matchData, teamName)
+    }
     if (res.result.code !== 0) {
-      return getOrCreateTeam(matchIndex, matchData)
+      console.error("create-team failed:", res.result)
+      return null
     }
     idxMap[matchIndex] = code
     saveTeamIndex(idxMap)
@@ -55,7 +60,6 @@ export async function getTeam(teamCode) {
       data: { code: teamCode }
     })
     if (res.result.code === 0) return res.result.data
-    // 有调试信息就打印出来
     if (res.result.debug) {
       console.log("get-team debug:", JSON.stringify(res.result.debug, null, 2))
     }
@@ -94,5 +98,3 @@ export function addJoinedTeam(code) {
 }
 
 export default { getOrCreateTeam: getOrCreateTeam, getTeam: getTeam, joinTeam: joinTeam, getAllTeamCodes: getAllTeamCodes, getJoinedTeamCodes: getJoinedTeamCodes, addJoinedTeam: addJoinedTeam }
-
-
